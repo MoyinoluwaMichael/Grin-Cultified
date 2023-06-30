@@ -36,10 +36,10 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     private void sendOtp(String emailAddress) {
         SendMailRequest sendMailRequest = new SendMailRequest();
-        sendMailRequest.setSender(SYSTEM_MAIL);
+        sendMailRequest.setFrom(SYSTEM_MAIL);
         sendMailRequest.setTo(emailAddress);
         sendMailRequest.setSubject(REGISTRATION_OTP);
-        sendMailRequest.setMessage(OTP_MESSAGE);
+        sendMailRequest.setText(OTP_MESSAGE);
         mailService.sendMail(sendMailRequest);
     }
 }

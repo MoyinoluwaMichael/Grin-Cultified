@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class SendMailRequest {
     private String to;
-    private String sender;
+    private String from;
     private String subject;
-    private String message;
+    private String text;
 }
