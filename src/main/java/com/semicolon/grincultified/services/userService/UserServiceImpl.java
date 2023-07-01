@@ -14,7 +14,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User addUserTemporarily(User user) {
-        User savedUser = temporaryUserRepo.save(user);
-        return savedUser;
+        return temporaryUserRepo.save(user);
     }
 }

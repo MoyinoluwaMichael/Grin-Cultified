@@ -8,7 +8,7 @@ public class AppUtils {
     public static final String CHECK_YOUR_MAIL_FOR_YOUR_OTP = "Check your mail for your otp!";
     public static final String REGISTRATION_OTP = "REGISTRATION OTP";
 
-    private static String generateOtp() {
+    public static String generateOtp() {
         SecureRandom secureRandom = new SecureRandom();
         int otpValue = secureRandom.nextInt(900000) + 100000;
         return String.valueOf(otpValue);

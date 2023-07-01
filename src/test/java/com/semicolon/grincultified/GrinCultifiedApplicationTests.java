@@ -1,5 +1,6 @@
 package com.semicolon.grincultified;
 
+import com.semicolon.grincultified.utilities.AppUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,6 +9,7 @@ class GrinCultifiedApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println(AppUtils.generateOtp());
 	}
 
 }
