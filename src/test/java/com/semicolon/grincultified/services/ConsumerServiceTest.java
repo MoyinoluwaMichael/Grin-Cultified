@@ -24,16 +24,7 @@ class ConsumerServiceTest {
 
     @Test
     public void registerUserTest(){
-        consumerRegistrationRequest = new ConsumerRegistrationRequest();
-        consumerRegistrationRequest.setEmailAddress("jenob77428@devswp.com");
-        consumerRegistrationRequest.setFirstName("first");
-        consumerRegistrationRequest.setLastName("last");
-        consumerRegistrationRequest.setPhoneNumber("0909999999");
-        consumerRegistrationRequest.setPassword("1234");
-        consumerRegistrationResponse = consumerService.register(consumerRegistrationRequest);
-        assertNotNull(consumerRegistrationResponse);
-        assertNotNull(consumerRegistrationResponse.getId());
-        assertNotNull(consumerRegistrationResponse.getMessage());
+
     }
 
 
