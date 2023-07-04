@@ -1,5 +1,6 @@
 package com.semicolon.grincultified.services.farmProjectService;
 
+import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.FarmProjectStatus;
 import com.semicolon.grincultified.data.models.InvestmentType;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 class FarmProjectServiceImplementationTest {
 
     private FarmProjectCreationRequest farmProjectCreationRequest;
-    private FarmProjectResponse farmProjectResponse;
+    private FarmProject farmProjectResponse;
     @Autowired
     private FarmProjectService farmProjectService;
 
