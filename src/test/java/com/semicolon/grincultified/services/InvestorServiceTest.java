@@ -9,12 +9,15 @@ import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.services.otpService.OtpService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 class InvestorServiceTest {
     @Autowired
