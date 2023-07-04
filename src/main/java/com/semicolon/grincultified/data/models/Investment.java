@@ -24,8 +24,7 @@ public class Investment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long investorId;
-    @OneToOne
-    private FarmProject farmProject;
+    private Long farmProjectId;
     private BigDecimal amount;
     private InvestmentReturnType returnType;
     private InvestmentStatus status;

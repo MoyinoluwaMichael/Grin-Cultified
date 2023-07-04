@@ -1,11 +1,10 @@
-package com.semicolon.grincultified.services;
+package com.semicolon.grincultified.services.investorService;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.InvestorRegistrationResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
-import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.services.otpService.OtpService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +51,4 @@ class InvestorServiceTest {
         InvestorRegistrationResponse investorRegistrationResponse = investorService.confirmRegistration(otpVerificationRequest);
         assertNotNull(investorRegistrationResponse);
     }
-
-
 }

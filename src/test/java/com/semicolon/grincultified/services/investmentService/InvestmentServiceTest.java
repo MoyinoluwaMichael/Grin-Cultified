@@ -1,4 +1,4 @@
-package com.semicolon.grincultified.services;
+package com.semicolon.grincultified.services.investmentService;
 
 import com.semicolon.grincultified.data.models.InvestmentReturnType;
 import com.semicolon.grincultified.data.models.RedemptionStatus;
