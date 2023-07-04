@@ -16,11 +16,7 @@ public class InvestmentController {
     private InvestmentService investmentService;
 
     public ResponseEntity<?> initiateInvestment(@RequestBody InvestmentRegistrationRequest investmentRegistrationRequest){
-      try {
           return new  ResponseEntity<>(investmentService.initiateInvestment(investmentRegistrationRequest), HttpStatus.CREATED);
-      }catch (IllegalArgumentException e){
-          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-      }
     }
 
 }
