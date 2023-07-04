@@ -17,7 +17,8 @@ import java.util.List;
 @RequestMapping("/semicolon/cultify/v1/api/investment")
 public class InvestmentController {
 
-    private InvestmentService investmentService;
+    private final InvestmentService investmentService;
+
     @PostMapping("/initiateInvestment")
     public ResponseEntity<InvestmentResponse> initiateInvestment(@RequestBody InvestmentRegistrationRequest investmentRegistrationRequest){
           return new  ResponseEntity<>(investmentService.initiateInvestment(investmentRegistrationRequest), HttpStatus.CREATED);
