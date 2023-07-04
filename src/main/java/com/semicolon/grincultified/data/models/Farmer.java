@@ -19,11 +19,5 @@ public class Farmer {
     @OneToOne
     private User user;
     private String landPics;
-    @OneToMany
-    private List<FarmProduce> farmProduces;
-    @OneToOne
-    private Transaction transaction;
-    @OneToOne
-    private OrderTracking trackOrder;
 }
 
