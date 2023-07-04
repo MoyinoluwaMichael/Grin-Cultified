@@ -28,9 +28,7 @@ public class InvestmentServiceTest {
         investmentRegistrationRequest.setAmount(BigDecimal.valueOf(5000));
         investmentRegistrationRequest.setFarmProjectId(1L);
         investmentRegistrationRequest.setInvestorId(2L);
-        investmentRegistrationRequest.setRedemptionStatus(RedemptionStatus.PENDING);
         investmentRegistrationRequest.setReturnType(InvestmentReturnType.MONEY);
-        investmentRegistrationRequest.getStatus();
 
         investmentResponse = investmentService.initiateInvestment(investmentRegistrationRequest);
 
