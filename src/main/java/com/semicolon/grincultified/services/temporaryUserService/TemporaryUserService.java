@@ -1,4 +1,4 @@
-package com.semicolon.grincultified.services.userService;
+package com.semicolon.grincultified.services.temporaryUserService;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 

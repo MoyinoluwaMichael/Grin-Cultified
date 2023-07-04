@@ -4,7 +4,7 @@ import com.semicolon.grincultified.data.models.Otp;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
-import com.semicolon.grincultified.services.userService.TemporaryUserService;
+import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

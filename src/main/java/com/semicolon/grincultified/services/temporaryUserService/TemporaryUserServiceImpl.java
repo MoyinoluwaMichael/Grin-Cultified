@@ -1,7 +1,6 @@
-package com.semicolon.grincultified.services.userService;
+package com.semicolon.grincultified.services.temporaryUserService;
 
 import com.semicolon.grincultified.data.repositories.TemporaryUserRepo;
-import com.semicolon.grincultified.data.repositories.UserRepo;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
