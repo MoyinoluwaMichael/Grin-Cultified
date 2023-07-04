@@ -6,23 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transporter {
+public class Investor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String emailAddress;
-    private String password;
-    private LocalDateTime createdAt;
-    private String profilePicture;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private User user;
+    @OneToMany
+    private List<Investment> investmentList;
     @OneToOne
-    private Address address;
+    private BankAccount bankAccount;
 }

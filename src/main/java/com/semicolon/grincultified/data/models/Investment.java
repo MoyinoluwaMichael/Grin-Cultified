@@ -3,9 +3,7 @@ package com.semicolon.grincultified.data.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -14,16 +12,15 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Payment {
+public class Investment {
     @Id
     private Long id;
-    private BigDecimal amount;
+    private Long investorId;
     @OneToOne
-    private User beneficiary;
-    private PaymentMethod paymentMethod;
-    private PaymentStatus paymentStatus;
-    private LocalDateTime localDateTime;
-
+    private FarmProject farmProject;
+    private BigDecimal amount;
+    private InvestmentReturnType returnType;
+    private InvestmentStatus status;
+    private LocalDateTime createdAt;
+    private RedemptionStatus redemptionStatus;
 }

@@ -9,7 +9,6 @@ class GrinCultifiedApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(AppUtils.generateOtp());
 	}
 
 }
