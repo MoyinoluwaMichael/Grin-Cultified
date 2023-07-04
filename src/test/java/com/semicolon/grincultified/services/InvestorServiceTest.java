@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -23,7 +24,7 @@ class InvestorServiceTest {
     @Autowired
     private OtpService otpService;
     private String otp;
-    private InvestorRegistrationResponse investorRegistrationResponse;
+    private ResponseEntity<InvestorRegistrationResponse> investorRegistrationResponse;
 
     @BeforeEach
     public void setUp() throws DuplicateInvestorException {
@@ -39,9 +40,9 @@ class InvestorServiceTest {
 
     @Test
     public void initiateRegistrationTest() {
-        otp = investorRegistrationResponse.getOtp();
-        assertNotNull(investorRegistrationResponse);
-        assertNotNull(investorRegistrationResponse.getMessage());
+        otp = investorRegistrationResponse.getBody().getOtp();
+        assertNotNull(investorRegistrationResponse.getBody());
+        assertNotNull(investorRegistrationResponse.getBody().getMessage());
     }
 
     @Test

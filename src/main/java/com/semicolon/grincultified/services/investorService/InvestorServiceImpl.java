@@ -16,6 +16,7 @@ import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -32,17 +33,17 @@ public class InvestorServiceImpl implements InvestorService {
     private final OtpService otpService;
 
     @Override
-    public InvestorRegistrationResponse initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
+    public ResponseEntity<InvestorRegistrationResponse> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
         if (foundInvestor.isPresent()) throw new DuplicateInvestorException(EMAIL_ALREADY_EXIST);
         Otp otp = otpService.generateOtp();
         investorRegistrationRequest.setOtp(otp);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
         sendOtp(investorRegistrationRequest);
-        return InvestorRegistrationResponse
+        return ResponseEntity.ok().body(InvestorRegistrationResponse
                 .builder()
                 .message(CHECK_YOUR_MAIL_FOR_YOUR_OTP)
-                .build();
+                .build());
     }
 
     @Override
