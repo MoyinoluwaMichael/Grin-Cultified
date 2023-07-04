@@ -1,7 +1,10 @@
 package com.semicolon.grincultified.data.repositories;
 
-import com.semicolon.grincultified.data.models.User;
-import org.springframework.data.repository.CrudRepository;
+import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TemporaryUserRepo extends CrudRepository<User, Long> {
+import java.util.Optional;
+
+public interface TemporaryUserRepo extends JpaRepository<InvestorRegistrationRequest, String> {
+    Optional<InvestorRegistrationRequest> findByEmailAddress(String emailAddress);
 }
