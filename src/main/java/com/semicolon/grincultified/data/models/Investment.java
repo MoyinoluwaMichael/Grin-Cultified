@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.Getter;
-
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-
 @AllArgsConstructor
 @NoArgsConstructor
 public class Investment {
@@ -27,11 +24,8 @@ public class Investment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long investorId;
-    private Long farmProjectId;
-
     @OneToOne
     private FarmProject farmProject;
-
     private BigDecimal amount;
     private InvestmentReturnType returnType;
     private InvestmentStatus status;
