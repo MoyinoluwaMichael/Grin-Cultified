@@ -1,10 +1,7 @@
 package com.semicolon.grincultified.data.models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +18,8 @@ public class InvestmentPlan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private  int roi;
+    @Enumerated(EnumType.STRING)
+
     private InvestmentType investmentType;
     private LocalDateTime startDate;
     private  LocalDateTime maturityDate;
