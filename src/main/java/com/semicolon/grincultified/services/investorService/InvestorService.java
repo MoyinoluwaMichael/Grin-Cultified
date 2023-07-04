@@ -5,8 +5,9 @@ import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.InvestorRegistrationResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
+import org.springframework.http.ResponseEntity;
 
 public interface InvestorService {
-    InvestorRegistrationResponse initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException;
+    ResponseEntity<InvestorRegistrationResponse> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException;
     InvestorRegistrationResponse confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException;
 }
