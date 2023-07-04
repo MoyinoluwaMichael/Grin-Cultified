@@ -1,9 +1,8 @@
-package com.semicolon.grincultified.services.mailServices;
+package com.semicolon.grincultified.services.mailService;
 
 import com.semicolon.grincultified.dtos.requests.SendMailRequest;
 import lombok.Builder;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

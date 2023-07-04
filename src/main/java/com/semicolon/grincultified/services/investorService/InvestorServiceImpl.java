@@ -11,7 +11,7 @@ import com.semicolon.grincultified.dtos.requests.SendMailRequest;
 import com.semicolon.grincultified.dtos.responses.InvestorRegistrationResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
-import com.semicolon.grincultified.services.mailServices.MailService;
+import com.semicolon.grincultified.services.mailService.MailService;
 import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import lombok.AllArgsConstructor;

@@ -9,6 +9,6 @@ public class AppUtils {
     public static final String REGISTERED_SUCCESSFULLY = "Registered successfully";
     public static final String INCORRECT_OTP= "Incorrect otp!";
     public static final String TEMPORARY_INVESTOR_DOES_NOT_EXIST= "Temporary investor does not exist!";
-
-
+    public static final String FARMER_REGISTRATION_SUCCESSFUL= "Farmer registration successful";
+    public static final String CREATED = "201";
 }
