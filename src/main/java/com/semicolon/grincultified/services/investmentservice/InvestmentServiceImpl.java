@@ -30,9 +30,8 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     @Override
     public InvestmentResponse initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest) {
-        Investment investment = modelMapper.map(investmentRegistrationRequest, Investment.class);
-        Investment invest = investmentRepo.save(investment);
-        InvestmentResponse investmentNow = modelMapper.map(invest, InvestmentResponse.class);
+        investorService.saveInvestmentFor(investmentRegistrationRequest);
+        InvestmentResponse investmentNow = modelMapper.map(investmentRegistrationRequest, InvestmentResponse.class);
         return investmentNow;
     }
 
@@ -45,8 +44,7 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     @Override
     public List<Investment> findInvestmentByEmail(String email) {
-        InvestorResponse investorResponse = investorService.findByEmail(email);
-        return   investmentRepo.findAllByInvestorId(email);
+        return investorService.findByEmail(email).getInvestments();
     }
 
 

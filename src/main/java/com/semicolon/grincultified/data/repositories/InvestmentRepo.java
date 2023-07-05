@@ -10,4 +10,5 @@ public interface InvestmentRepo extends JpaRepository<Investment, Long>{
     List<Investment> findAllByInvestorId(Long id);
 
 
+
 }

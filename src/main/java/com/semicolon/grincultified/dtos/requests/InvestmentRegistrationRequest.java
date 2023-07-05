@@ -16,5 +16,4 @@ public class InvestmentRegistrationRequest {
     private Long investorId;
     private BigDecimal amount;
     private InvestmentReturnType returnType;
-
 }
