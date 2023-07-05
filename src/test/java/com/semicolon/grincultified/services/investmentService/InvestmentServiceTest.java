@@ -39,4 +39,10 @@ public class InvestmentServiceTest {
     assertThat(investmentResponse).isNotNull();
 
     }
+
+    @Test
+    public void findInvestmentByEmailTest(){
+//        var foundInvestment = investmentService.findInvestmentByEmail(investmentResponse.ge);
+
+    }
 }

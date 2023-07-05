@@ -20,7 +20,6 @@ public class Investor {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
     @OneToMany
-
     private List<Investment> investments;
     @OneToOne
     private  BankAccount bankAccount;

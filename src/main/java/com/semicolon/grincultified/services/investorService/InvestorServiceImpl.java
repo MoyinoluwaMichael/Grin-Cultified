@@ -9,6 +9,7 @@ import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.requests.SendMailRequest;
 import com.semicolon.grincultified.dtos.responses.InvestorRegistrationResponse;
+import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.mailService.MailService;
@@ -61,6 +62,11 @@ public class InvestorServiceImpl implements InvestorService {
                 .build();
     }
 
+    @Override
+    public InvestorResponse findByEmail(String email) {
+        Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(email);
+
+    }
 
 
     private String sendOtp(InvestorRegistrationRequest investorRegistrationRequest) {

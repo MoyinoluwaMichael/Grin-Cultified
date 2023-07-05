@@ -9,4 +9,5 @@ import java.util.List;
 public interface InvestmentService {
     InvestmentResponse initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest);
     List<Investment> findAll();
+    List<Investment> findInvestmentByEmail(String email);
 }
