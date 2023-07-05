@@ -19,10 +19,9 @@ public class Investor {
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
-    @OneToMany
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Investment> investments;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private  BankAccount bankAccount;
 
 
