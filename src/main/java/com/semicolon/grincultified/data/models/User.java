@@ -30,6 +30,7 @@ public class User {
     private String profilePicture;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
