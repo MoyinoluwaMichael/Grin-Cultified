@@ -4,7 +4,6 @@ import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.InvestmentPlan;
 import com.semicolon.grincultified.data.repositories.FarmProjectRepository;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
-import com.semicolon.grincultified.dtos.responses.FarmProjectResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

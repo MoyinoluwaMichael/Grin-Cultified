@@ -2,7 +2,6 @@ package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
-import com.semicolon.grincultified.dtos.responses.FarmProjectResponse;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

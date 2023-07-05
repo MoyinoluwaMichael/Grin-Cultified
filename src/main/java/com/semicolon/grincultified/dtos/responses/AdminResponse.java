@@ -5,24 +5,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.semicolon.grincultified.data.models.Address;
+import com.semicolon.grincultified.data.models.AdminType;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Setter
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+@RequiredArgsConstructor
+public class AdminResponse {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String emailAddress;
-    private Address address;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime createdAt;
-    private String profilePicture;
+    private UserResponse userResponse;
+    private AdminType adminType;
 }
