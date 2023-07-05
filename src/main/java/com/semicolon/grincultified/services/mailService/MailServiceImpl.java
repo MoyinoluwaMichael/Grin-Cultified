@@ -17,7 +17,11 @@ public class MailServiceImpl implements MailService{
 
     @Override
     public void sendMail(SendMailRequest sendMailRequest) {
-        SimpleMailMessage mailMessage = modelMapper.map(sendMailRequest, SimpleMailMessage.class);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(sendMailRequest.getTo());
+        mailMessage.setFrom(sendMailRequest.getFrom());
+        mailMessage.setSubject(sendMailRequest.getSubject());
+        mailMessage.setText(sendMailRequest.getText());
         mailSender.send(mailMessage);
     }
 }

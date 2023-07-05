@@ -23,7 +23,4 @@ public class Investor {
     private List<Investment> investments;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private  BankAccount bankAccount;
-
-
-
 }
