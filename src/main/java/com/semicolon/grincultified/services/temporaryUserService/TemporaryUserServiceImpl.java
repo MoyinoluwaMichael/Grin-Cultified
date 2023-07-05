@@ -17,9 +17,8 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
 
     @Override
     public InvestorRegistrationRequest findByEmailAddress(String emailAddress) {
-        InvestorRegistrationRequest investorRegistrationRequest = temporaryUserRepo.findByEmailAddress(emailAddress)
+        return temporaryUserRepo.findByEmailAddress(emailAddress)
                 .orElseThrow(() -> new RuntimeException("User doesnt exist"));
-        return investorRegistrationRequest;
     }
     @Override
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
