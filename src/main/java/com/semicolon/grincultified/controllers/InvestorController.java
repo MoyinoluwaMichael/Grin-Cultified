@@ -1,7 +1,7 @@
 package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
-import com.semicolon.grincultified.dtos.responses.InvestorRegistrationResponse;
+import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.services.investorService.InvestorService;
@@ -21,7 +21,7 @@ public class InvestorController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<InvestorRegistrationResponse> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
+    public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
         return investorService.initiateRegistration(investorRegistrationRequest);
     }
 

@@ -29,8 +29,8 @@ public class AdminServiceImplementation implements AdminService {
         admin.setAdminType(AdminType.ORDINARY);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
-        AdminResponse adminResponse = modelMapper.map(savedAdmin, AdminResponse.class);
         UserResponse userResponse = modelMapper.map(savedAdmin.getUser(), UserResponse.class);
+        AdminResponse adminResponse = modelMapper.map(savedAdmin, AdminResponse.class);
         adminResponse.setUserResponse(userResponse);
         return adminResponse;
     }

@@ -10,15 +10,15 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Entity
 public class AdminRegistrationRequest {
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private AdminType adminType;
-    @OneToOne
-    private Address address;
-    @Id
+    private String streetName;
+    private String streetNumber;
+    private String city;
+    private String state;
     private String emailAddress;
     private String password;
 }
