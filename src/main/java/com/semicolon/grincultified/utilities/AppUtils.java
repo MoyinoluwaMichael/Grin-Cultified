@@ -25,4 +25,5 @@ public class AppUtils {
     public static final String CULTIFY = "cultify";
     public static Long SIXTY = 60L;
     public static String ADMIN_REGISTRATION_PAGE_URL = "http://localhost:3000/admin/registration/";
+    public static final String NO_INVITATION_SENT_YET = "%, No Registration Invitation Email Sent Yet";
 }

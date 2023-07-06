@@ -4,7 +4,6 @@ import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.FarmProjectStatus;
 import com.semicolon.grincultified.data.models.InvestmentType;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
-import com.semicolon.grincultified.dtos.responses.FarmProjectResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
