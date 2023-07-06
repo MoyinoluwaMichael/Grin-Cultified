@@ -5,12 +5,11 @@ import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
 import com.semicolon.grincultified.exception.AdminNotFoundException;
-
-import java.util.Optional;
+import org.springframework.http.ResponseEntity;
 
 
 public interface AdminService {
-    AdminResponse adminRegistration (AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException;
+    ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException;
 
     AdminResponse findByEmail(String emailAddress) throws AdminNotFoundException;
 
