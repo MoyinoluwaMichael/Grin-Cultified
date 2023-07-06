@@ -20,4 +20,7 @@ public interface InvestorService {
     InvestorResponse findById(Long investorId);
 
     ResponseEntity<List<InvestorResponse>> getAllInvestors();
+
+    void deleteAll();
+
 }

@@ -11,6 +11,8 @@ import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistExcept
 import com.semicolon.grincultified.services.investmentservice.InvestmentService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.services.otpService.OtpService;
+import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
+import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +30,21 @@ public class InvestmentServiceTest {
     private InvestorService investorService;
     private InvestorRegistrationRequest investorRegistrationRequest;
     private OtpVerificationRequest otpVerificationRequest;
-    @Autowired
-    private OtpService otpService;
     private String otp;
     @Autowired
     private InvestmentService investmentService;
     private InvestmentRegistrationRequest investmentRegistrationRequest;
     private ResponseEntity<InvestmentResponse>  investmentResponse;
     private ResponseEntity<InvestorResponse>  investorResponse;
+    @Autowired
+    private TemporaryUserService temporaryUserService;
 
 
     @BeforeEach
     void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+        investorService.deleteAll();
+        investmentService.deleteAll();
+        temporaryUserService.deleteAll();
         otpVerificationRequest = new OtpVerificationRequest();
         investorRegistrationRequest = new InvestorRegistrationRequest();
         investorRegistrationRequest.setEmailAddress("jenob77428@devswp.com");

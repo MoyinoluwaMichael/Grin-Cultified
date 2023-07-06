@@ -11,4 +11,6 @@ public interface InvestmentService {
     ResponseEntity<InvestmentResponse> initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest);
     ResponseEntity<List<InvestmentResponse>> findAll();
     ResponseEntity<List<InvestmentResponse>> findInvestmentByEmail(String email);
+
+    void deleteAll();
 }

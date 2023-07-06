@@ -39,7 +39,7 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
-        if (foundInvestor.isPresent()) throw new DuplicateInvestorException(EMAIL_ALREADY_EXIST);
+        if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
         Otp otp = otpService.generateOtp();
         investorRegistrationRequest.setOtp(otp);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
@@ -97,5 +97,10 @@ public class InvestorServiceImpl implements InvestorService {
         List<Investor> investors = investorRepo.findAll();
         List<InvestorResponse> investorResponses =  investors.stream().map(this::map).collect(Collectors.toList());
         return ResponseEntity.ok().body(investorResponses);
+    }
+
+    @Override
+    public void deleteAll() {
+        investorRepo.deleteAll();
     }
 }

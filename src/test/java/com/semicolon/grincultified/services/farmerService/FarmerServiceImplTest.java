@@ -16,6 +16,7 @@ class FarmerServiceImplTest {
     private FarmerService farmerService;
 
     @Test void farmerRegistrationTest(){
+        farmerService.deleteAll();
         FarmerRegistrationRequest farmerRegistrationRequest = new FarmerRegistrationRequest();
         farmerRegistrationRequest.setFirstName("moyin");
         farmerRegistrationRequest.setLastName("oluwa");

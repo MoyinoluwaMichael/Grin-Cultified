@@ -54,10 +54,10 @@ public class InvestmentServiceImpl implements InvestmentService {
         return ResponseEntity.ok().body(investmentResponses);
     }
 
-
-
-
-
+    @Override
+    public void deleteAll() {
+        investmentRepo.deleteAll();
+    }
 
 
 }
