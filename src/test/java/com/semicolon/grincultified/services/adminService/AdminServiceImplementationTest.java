@@ -3,7 +3,6 @@ package com.semicolon.grincultified.services.adminService;
 import com.semicolon.grincultified.data.models.AdminType;
 import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.AdminResponse;
-import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
 import com.semicolon.grincultified.exception.AdminNotFoundException;
@@ -40,7 +39,7 @@ class AdminServiceImplementationTest {
         adminRegistrationRequest.setPhoneNumber("08012345678");
         adminRegistrationRequest.setAdminType(AdminType.ORDINARY);
 
-        adminResponse = adminService.adminRegistration(adminRegistrationRequest);
+        adminResponse = adminService.register(adminRegistrationRequest).getBody();
     }
     @Test
     void TestThatAdminCanRegister(){

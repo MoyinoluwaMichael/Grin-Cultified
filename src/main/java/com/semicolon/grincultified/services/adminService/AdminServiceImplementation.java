@@ -14,6 +14,9 @@ import com.semicolon.grincultified.exception.AdminNotFoundException;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,7 +31,7 @@ public class AdminServiceImplementation implements AdminService {
     private final AdminInvitationService adminInvitationService;
 
     @Override
-    public AdminResponse adminRegistration(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
+    public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
         adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
         User user = modelMapper.map(adminRegistrationRequest, User.class);
         Address address = modelMapper.map(adminRegistrationRequest, Address.class);
@@ -37,7 +40,7 @@ public class AdminServiceImplementation implements AdminService {
         admin.setAdminType(AdminType.ORDINARY);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
-        return map(savedAdmin);
+        return new ResponseEntity(map(savedAdmin), HttpStatus.CREATED);
     }
 
     private AdminResponse map(Admin savedAdmin) {
