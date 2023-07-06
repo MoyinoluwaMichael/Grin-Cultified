@@ -32,4 +32,9 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
     public List<FarmProject> getAllFarmProjects() {
         return farmProjectRepository.findAll();
     }
+
+    @Override
+    public void deleteAll() {
+        farmProjectRepository.deleteAll();
+    }
 }

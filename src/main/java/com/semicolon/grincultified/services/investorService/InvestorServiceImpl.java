@@ -20,8 +20,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
@@ -37,7 +39,7 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
-        if (foundInvestor.isPresent()) throw new DuplicateInvestorException(EMAIL_ALREADY_EXIST);
+        if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
         Otp otp = otpService.generateOtp();
         investorRegistrationRequest.setOtp(otp);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
@@ -49,7 +51,7 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public InvestorResponse confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException {
+    public ResponseEntity<InvestorResponse> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException {
         InvestorRegistrationRequest investorRegistrationRequest = otpService.verifyOtp(otpVerificationRequest);
         User user = modelMapper.map(investorRegistrationRequest, User.class);
         Address address = new Address();
@@ -58,8 +60,12 @@ public class InvestorServiceImpl implements InvestorService {
         investor.setUser(user);
         Investor savedInvestor = investorRepo.save(investor);
         temporaryUserService.deleteTemporaryInvestor(investorRegistrationRequest);
-        UserResponse userResponse = modelMapper.map(savedInvestor.getUser(), UserResponse.class);
-        InvestorResponse investorResponse = modelMapper.map(savedInvestor, InvestorResponse.class);
+        return ResponseEntity.ok().body(map(savedInvestor));
+    }
+
+    private InvestorResponse map(Investor investor) {
+        UserResponse userResponse = modelMapper.map(investor.getUser(), UserResponse.class);
+        InvestorResponse investorResponse = modelMapper.map(investor, InvestorResponse.class);
         investorResponse.setUserResponse(userResponse);
         return investorResponse;
     }
@@ -67,27 +73,13 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public InvestorResponse findByEmail(String email) {
         Investor foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(email).get();
-        UserResponse userResponse = modelMapper.map(foundInvestor.getUser(), UserResponse.class);
-        InvestorResponse investorResponse = modelMapper.map(foundInvestor, InvestorResponse.class);
-        investorResponse.setUserResponse(userResponse);
-        return investorResponse;
+        return map(foundInvestor);
     }
 
     @Override
     public InvestorResponse findById(Long investorId) {
         return modelMapper.map(investorRepo.findById(investorId), InvestorResponse.class);
     }
-
-    @Override
-    public void saveInvestmentFor(InvestmentRegistrationRequest investmentRegistrationRequest) {
-        Investment investment = modelMapper.map(investmentRegistrationRequest, Investment.class);
-        Investor investor = investorRepo.findById(investmentRegistrationRequest.getInvestorId()).get();
-        List<Investment> investments = investor.getInvestments();
-        investments.add(investment);
-        investor.setInvestments(investments);
-        investorRepo.save(investor);
-    }
-
 
     private String sendOtp(InvestorRegistrationRequest investorRegistrationRequest) {
         SendMailRequest sendMailRequest = new SendMailRequest();
@@ -98,5 +90,17 @@ public class InvestorServiceImpl implements InvestorService {
         sendMailRequest.setText(text);
         mailService.sendMail(sendMailRequest);
         return sendMailRequest.getText();
+    }
+
+    @Override
+    public ResponseEntity<List<InvestorResponse>> getAllInvestors() {
+        List<Investor> investors = investorRepo.findAll();
+        List<InvestorResponse> investorResponses =  investors.stream().map(this::map).collect(Collectors.toList());
+        return ResponseEntity.ok().body(investorResponses);
+    }
+
+    @Override
+    public void deleteAll() {
+        investorRepo.deleteAll();
     }
 }

@@ -8,20 +8,28 @@ import com.semicolon.grincultified.data.repositories.AdminRepository;
 import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.dtos.responses.UserResponse;
+import com.semicolon.grincultified.exception.AdminAlreadyExistException;
+import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
+import com.semicolon.grincultified.exception.AdminNotFoundException;
+import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import static com.semicolon.grincultified.utilities.AppUtils.REGISTERED_SUCCESSFULLY;
+import java.util.Optional;
+
+import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
 @AllArgsConstructor
 public class AdminServiceImplementation implements AdminService {
     AdminRepository adminRepository;
     private final ModelMapper modelMapper;
+    private final AdminInvitationService adminInvitationService;
 
     @Override
-    public AdminResponse adminRegistration(AdminRegistrationRequest adminRegistrationRequest) {
+    public AdminResponse adminRegistration(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
+        adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
         User user = modelMapper.map(adminRegistrationRequest, User.class);
         Address address = modelMapper.map(adminRegistrationRequest, Address.class);
         user.setAddress(address);
@@ -29,9 +37,31 @@ public class AdminServiceImplementation implements AdminService {
         admin.setAdminType(AdminType.ORDINARY);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
+        return map(savedAdmin);
+    }
+
+    private AdminResponse map(Admin savedAdmin) {
         UserResponse userResponse = modelMapper.map(savedAdmin.getUser(), UserResponse.class);
         AdminResponse adminResponse = modelMapper.map(savedAdmin, AdminResponse.class);
         adminResponse.setUserResponse(userResponse);
         return adminResponse;
+    }
+
+    @Override
+    public AdminResponse findByEmail(String emailAddress) throws AdminNotFoundException {
+        Admin admin = adminRepository.findAdminByUser_EmailAddress(emailAddress).orElseThrow(()->new AdminNotFoundException(ADMIN_NOT_FOUND));
+        return map(admin);
+    }
+
+    @Override
+    public String validateDuplicateExistence(String emailAddress) throws AdminAlreadyExistException {
+        Optional<Admin> admin = adminRepository.findAdminByUser_EmailAddress(emailAddress);
+        if (admin.isPresent()) throw new AdminAlreadyExistException(ADMIN_ALREADY_EXISTS);
+        return ADMIN_DOES_NOT_EXIST;
+    }
+
+    @Override
+    public void deleteAll() {
+        adminRepository.deleteAll();
     }
 }

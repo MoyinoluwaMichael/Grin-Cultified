@@ -22,7 +22,7 @@ class FarmProjectServiceImplementationTest {
 
     @BeforeEach
     void setUp(){
-
+        farmProjectService.deleteAll();
         farmProjectCreationRequest = new FarmProjectCreationRequest();
         farmProjectCreationRequest.setDescription("Expanding Carrot Production in Lavun LGA of Nigeria");
         farmProjectCreationRequest.setFarmProduceSummary("Carrot");

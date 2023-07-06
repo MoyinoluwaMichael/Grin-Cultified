@@ -9,13 +9,18 @@ import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface InvestorService {
     ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException;
-    InvestorResponse confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException;
+    ResponseEntity<InvestorResponse> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException;
 
     InvestorResponse findByEmail(String email);
 
     InvestorResponse findById(Long investorId);
 
-    void saveInvestmentFor(InvestmentRegistrationRequest investmentRegistrationRequest);
+    ResponseEntity<List<InvestorResponse>> getAllInvestors();
+
+    void deleteAll();
+
 }

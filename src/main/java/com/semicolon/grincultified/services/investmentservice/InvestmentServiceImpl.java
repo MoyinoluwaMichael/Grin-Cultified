@@ -12,12 +12,14 @@ import com.semicolon.grincultified.services.investorService.InvestorService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,28 +31,33 @@ public class InvestmentServiceImpl implements InvestmentService {
 
 
     @Override
-    public InvestmentResponse initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest) {
-        investorService.saveInvestmentFor(investmentRegistrationRequest);
-        InvestmentResponse investmentNow = modelMapper.map(investmentRegistrationRequest, InvestmentResponse.class);
-        return investmentNow;
+    public ResponseEntity<InvestmentResponse> initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest) {
+        Investment investment = modelMapper.map(investmentRegistrationRequest, Investment.class);
+        Investment savedInvestment = investmentRepo.save(investment);
+        InvestmentResponse investmentNow = modelMapper.map(savedInvestment, InvestmentResponse.class);
+        return ResponseEntity.ok().body(investmentNow);
     }
 
     @Override
-    public List<Investment> findAll() {
-        return investmentRepo.findAll();
+    public ResponseEntity<List<InvestmentResponse>> findAll() {
+        List<InvestmentResponse> investmentResponses = investmentRepo.findAll()
+                                                        .stream()
+                                                        .map(i -> modelMapper.map(i, InvestmentResponse.class)).toList();
+        return ResponseEntity.ok().body(investmentResponses);
     }
-
-
 
     @Override
-    public List<Investment> findInvestmentByEmail(String email) {
-        return investorService.findByEmail(email).getInvestments();
+    public ResponseEntity<List<InvestmentResponse>> findInvestmentByEmail(String email) {
+        InvestorResponse investor = investorService.findByEmail(email);
+        List<Investment> investments = investmentRepo.findAllByInvestorId(investor.getId());
+        List<InvestmentResponse> investmentResponses = investments.stream().map(i->modelMapper.map(i, InvestmentResponse.class)).toList();
+        return ResponseEntity.ok().body(investmentResponses);
     }
 
-
-
-
-
+    @Override
+    public void deleteAll() {
+        investmentRepo.deleteAll();
+    }
 
 
 }

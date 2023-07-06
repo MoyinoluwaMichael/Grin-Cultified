@@ -7,6 +7,7 @@ import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.otpService.OtpService;
+import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,16 @@ class InvestorServiceTest {
     private InvestorService investorService;
     private InvestorRegistrationRequest investorRegistrationRequest;
     private OtpVerificationRequest otpVerificationRequest;
-    @Autowired
-    private OtpService otpService;
     private String otp;
     private ResponseEntity<GenericResponse<String>> investorRegistrationResponse;
-    private InvestorResponse investorResponse;
+    private ResponseEntity<InvestorResponse>  investorResponse;
+    @Autowired
+    private TemporaryUserService temporaryUserService;
 
     @BeforeEach
     public void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+        investorService.deleteAll();
+        temporaryUserService.deleteAll();
         otpVerificationRequest = new OtpVerificationRequest();
         investorRegistrationRequest = new InvestorRegistrationRequest();
         investorRegistrationRequest.setEmailAddress("jenob77428@devswp.com");
@@ -51,7 +54,7 @@ class InvestorServiceTest {
     }
 
     @Test
-    public void confirmRegistrationTest() throws TemporaryInvestorDoesNotExistException {
+    public void confirmRegistrationTest() {
         assertNotNull(investorResponse);
     }
 }

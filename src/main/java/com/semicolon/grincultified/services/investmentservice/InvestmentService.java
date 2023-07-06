@@ -3,11 +3,14 @@ package com.semicolon.grincultified.services.investmentservice;
 import com.semicolon.grincultified.data.models.Investment;
 import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface InvestmentService {
-    InvestmentResponse initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest);
-    List<Investment> findAll();
-    List<Investment> findInvestmentByEmail(String email);
+    ResponseEntity<InvestmentResponse> initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest);
+    ResponseEntity<List<InvestmentResponse>> findAll();
+    ResponseEntity<List<InvestmentResponse>> findInvestmentByEmail(String email);
+
+    void deleteAll();
 }

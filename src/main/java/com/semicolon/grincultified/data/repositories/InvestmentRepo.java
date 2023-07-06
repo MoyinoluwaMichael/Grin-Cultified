@@ -8,7 +8,4 @@ import java.util.Optional;
 
 public interface InvestmentRepo extends JpaRepository<Investment, Long>{
     List<Investment> findAllByInvestorId(Long id);
-
-
-
 }

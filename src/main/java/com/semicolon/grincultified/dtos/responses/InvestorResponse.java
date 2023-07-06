@@ -21,6 +21,5 @@ import lombok.*;
 public class InvestorResponse {
     private Long id;
     private UserResponse userResponse;
-    private List<Investment> investments;
     private BankAccount bankAccount;
 }

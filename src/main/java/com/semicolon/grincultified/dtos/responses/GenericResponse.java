@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @Getter
 public class GenericResponse<T>{
+    private String status;
     private String message;
     private T data;
-    private String status;
 }
