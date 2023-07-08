@@ -5,8 +5,9 @@ import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistExcept
 
 public interface TemporaryUserService {
    void addUserTemporarily(InvestorRegistrationRequest investorRegistrationRequest);
-    InvestorRegistrationRequest findByEmailAddress(String emailAddress) throws TemporaryInvestorDoesNotExistException;
+    InvestorRegistrationRequest findByEmail(String emailAddress) throws TemporaryInvestorDoesNotExistException;
     void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest);
+    void validateDuplicateTemporaryInvestor(String emailAddress);
 
     void deleteAll();
 

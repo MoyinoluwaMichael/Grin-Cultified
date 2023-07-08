@@ -17,6 +17,4 @@ public class Admin {
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
-    @Enumerated(EnumType.STRING)
-    private AdminType adminType;
 }

@@ -25,7 +25,7 @@ public class InvestorController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
+    public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
         return investorService.initiateRegistration(investorRegistrationRequest);
     }
 

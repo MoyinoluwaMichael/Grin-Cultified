@@ -1,36 +1,41 @@
 package com.semicolon.grincultified.services.temporaryUserService;
 
-import com.semicolon.grincultified.data.repositories.TemporaryUserRepo;
+import com.semicolon.grincultified.data.repositories.TemporaryInvestorRepository;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.semicolon.grincultified.utilities.AppUtils.INITIAL_REGISTRATION_NOT_FOUND_FOR;
+import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
 @AllArgsConstructor
 public class TemporaryUserServiceImpl implements TemporaryUserService {
-    private final TemporaryUserRepo temporaryUserRepo;
+    private final TemporaryInvestorRepository temporaryInvestorRepository;
 
     @Override
     public void addUserTemporarily(InvestorRegistrationRequest investorRegistrationRequest) {
-        temporaryUserRepo.save(investorRegistrationRequest);
+        temporaryInvestorRepository.save(investorRegistrationRequest);
     }
 
     @Override
-    public InvestorRegistrationRequest findByEmailAddress(String emailAddress) throws TemporaryInvestorDoesNotExistException {
-        return temporaryUserRepo.findByEmailAddress(emailAddress)
-                                .orElseThrow(() -> new TemporaryInvestorDoesNotExistException(
+    public InvestorRegistrationRequest findByEmail(String emailAddress) throws TemporaryInvestorDoesNotExistException {
+        return temporaryInvestorRepository.findByEmailAddress(emailAddress).orElseThrow(()->new TemporaryInvestorDoesNotExistException(
                                                 String.format(INITIAL_REGISTRATION_NOT_FOUND_FOR, emailAddress)));
+    }
+
+    @Override
+    public void validateDuplicateTemporaryInvestor(String emailAddress) {
+        var tempInvestor = temporaryInvestorRepository.findByEmailAddress(emailAddress);
+        tempInvestor.ifPresent(this::deleteTemporaryInvestor);
     }
     @Override
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
-        temporaryUserRepo.delete(investorRegistrationRequest);
+        temporaryInvestorRepository.delete(investorRegistrationRequest);
     }
 
     @Override
     public void deleteAll() {
-        temporaryUserRepo.deleteAll();
+        temporaryInvestorRepository.deleteAll();
     }
 }

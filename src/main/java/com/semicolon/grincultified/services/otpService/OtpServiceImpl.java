@@ -21,7 +21,7 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public InvestorRegistrationRequest verifyOtp(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException {
-        InvestorRegistrationRequest investorRegistrationRequest = temporaryUserService.findByEmailAddress(otpVerificationRequest.getEmailAddress());
+        InvestorRegistrationRequest investorRegistrationRequest = temporaryUserService.findByEmail(otpVerificationRequest.getEmailAddress());
         if (investorRegistrationRequest == null) throw new TemporaryInvestorDoesNotExistException(TEMPORARY_INVESTOR_DOES_NOT_EXIST);
         return investorRegistrationRequest;
     }
