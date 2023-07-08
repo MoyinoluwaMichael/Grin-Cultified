@@ -1,11 +1,14 @@
 package com.semicolon.grincultified.configurations;
 
+import com.semicolon.grincultified.utilities.JwtUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Properties;
 
@@ -21,6 +24,8 @@ public class BeanConfiguration {
     private String mailPassword;
     @Value("${spring.mail.username}")
     private String mailUsername;
+    @Value("jwt.signing.secret")
+    private String secret;
 
     @Bean
     public ModelMapper modelMapper(){
@@ -40,4 +45,14 @@ public class BeanConfiguration {
         javaMailSender.setUsername(mailUsername);
         return javaMailSender;
     }
+
+    @Bean
+    public JwtUtility jwtUtility(){
+        return new JwtUtility(secret);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
+    }
+
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface TemporaryUserRepo extends JpaRepository<InvestorRegistrationRequest, String> {
+public interface TemporaryInvestorRepository extends JpaRepository<InvestorRegistrationRequest, String> {
     Optional<InvestorRegistrationRequest> findByEmailAddress(String emailAddress);
 }

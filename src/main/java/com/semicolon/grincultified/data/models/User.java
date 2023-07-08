@@ -1,14 +1,18 @@
 package com.semicolon.grincultified.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.StringJoiner;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,6 +35,12 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    @JsonIgnore
+    private Boolean isEnabled;
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
@@ -38,17 +48,19 @@ public class User {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("firstName='" + firstName + "'")
-                .add("lastName='" + lastName + "'")
-                .add("phoneNumber='" + phoneNumber + "'")
-                .add("emailAddress='" + emailAddress + "'")
-                .add("password='" + password + "'")
-                .add("createdAt=" + createdAt)
-                .add("profilePicture='" + profilePicture + "'")
-                .add("address=" + address)
-                .toString();
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", address=" + address +
+                ", roles=" + roles +
+                ", isEnabled=" + isEnabled +
+                '}';
     }
 }
 

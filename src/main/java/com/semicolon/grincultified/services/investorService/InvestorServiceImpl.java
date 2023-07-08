@@ -2,12 +2,10 @@ package com.semicolon.grincultified.services.investorService;
 
 import com.semicolon.grincultified.data.models.*;
 import com.semicolon.grincultified.data.repositories.InvestorRepo;
-import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.requests.SendMailRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
-import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.dtos.responses.UserResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
@@ -18,13 +16,15 @@ import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserSe
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.semicolon.grincultified.data.models.Role.INVESTOR;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -35,11 +35,15 @@ public class InvestorServiceImpl implements InvestorService {
     private final TemporaryUserService temporaryUserService;
     private final MailService mailService;
     private final OtpService otpService;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
-    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
+    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
         if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
+        temporaryUserService.validateDuplicateTemporaryInvestor(investorRegistrationRequest.getEmailAddress());
+        investorRegistrationRequest.setPassword(passwordEncoder.encode(investorRegistrationRequest.getPassword()));
         Otp otp = otpService.generateOtp();
         investorRegistrationRequest.setOtp(otp);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
@@ -56,6 +60,8 @@ public class InvestorServiceImpl implements InvestorService {
         User user = modelMapper.map(investorRegistrationRequest, User.class);
         Address address = new Address();
         user.setAddress(address);
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(INVESTOR);
         Investor investor = new Investor();
         investor.setUser(user);
         Investor savedInvestor = investorRepo.save(investor);
