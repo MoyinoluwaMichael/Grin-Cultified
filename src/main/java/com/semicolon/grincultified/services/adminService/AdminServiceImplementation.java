@@ -1,9 +1,6 @@
 package com.semicolon.grincultified.services.adminService;
 
-import com.semicolon.grincultified.data.models.Address;
-import com.semicolon.grincultified.data.models.Admin;
-import com.semicolon.grincultified.data.models.AdminType;
-import com.semicolon.grincultified.data.models.User;
+import com.semicolon.grincultified.data.models.*;
 import com.semicolon.grincultified.data.repositories.AdminRepository;
 import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.AdminResponse;
@@ -17,10 +14,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
+import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -29,15 +29,18 @@ public class AdminServiceImplementation implements AdminService {
     AdminRepository adminRepository;
     private final ModelMapper modelMapper;
     private final AdminInvitationService adminInvitationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
         adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));
         User user = modelMapper.map(adminRegistrationRequest, User.class);
         Address address = modelMapper.map(adminRegistrationRequest, Address.class);
         user.setAddress(address);
         Admin admin = new Admin();
-        admin.setAdminType(AdminType.ORDINARY);
+        admin.getUser().setRoles(new HashSet<>());
+        admin.getUser().getRoles().add(ORDINARY_ADMIN);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
         return new ResponseEntity(map(savedAdmin), HttpStatus.CREATED);

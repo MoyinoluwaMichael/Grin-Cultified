@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/register")
+    @PostMapping("/registration")
     public ResponseEntity<AdminResponse> register(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
         return adminService.register(adminRegistrationRequest);
     }

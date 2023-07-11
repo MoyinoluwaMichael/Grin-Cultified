@@ -19,12 +19,18 @@ import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserSe
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+=======
+import java.util.HashSet;
+>>>>>>> b3c6df1ac12837e75a98a6fbed9bbc49f33156c9
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.semicolon.grincultified.data.models.Role.INVESTOR;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -35,11 +41,15 @@ public class InvestorServiceImpl implements InvestorService {
     private final TemporaryUserService temporaryUserService;
     private final MailService mailService;
     private final OtpService otpService;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
-    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
+    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
         if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
+        temporaryUserService.validateDuplicateTemporaryInvestor(investorRegistrationRequest.getEmailAddress());
+        investorRegistrationRequest.setPassword(passwordEncoder.encode(investorRegistrationRequest.getPassword()));
         Otp otp = otpService.generateOtp();
         investorRegistrationRequest.setOtp(otp);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
@@ -56,6 +66,8 @@ public class InvestorServiceImpl implements InvestorService {
         User user = modelMapper.map(investorRegistrationRequest, User.class);
         Address address = new Address();
         user.setAddress(address);
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(INVESTOR);
         Investor investor = new Investor();
         investor.setUser(user);
         Investor savedInvestor = investorRepo.save(investor);
