@@ -10,4 +10,6 @@ import java.util.List;
 public interface FarmerService {
     GenericResponse<FarmerResponse> registerFarmer(FarmerRegistrationRequest farmerRegistrationRequest);
     List<Farmer> getAllFarmers();
+
+    void deleteAll();
 }

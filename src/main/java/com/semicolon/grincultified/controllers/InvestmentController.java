@@ -21,11 +21,17 @@ public class InvestmentController {
 
     @PostMapping("/initiateInvestment")
     public ResponseEntity<InvestmentResponse> initiateInvestment(@RequestBody InvestmentRegistrationRequest investmentRegistrationRequest){
-          return new  ResponseEntity<>(investmentService.initiateInvestment(investmentRegistrationRequest), HttpStatus.CREATED);
+          return investmentService.initiateInvestment(investmentRegistrationRequest);
     }
+
     @GetMapping("/getAllInvestments")
-    public ResponseEntity<List<Investment>> findAll() {
-        return new ResponseEntity<>(investmentService.findAll(), HttpStatus.FOUND);
+    public ResponseEntity<List<InvestmentResponse>> findAll() {
+        return investmentService.findAll();
+    }
+
+    @GetMapping("/getAllInvestmentsByEmail/{email}")
+    public ResponseEntity<List<InvestmentResponse>> findAllByEmail(@PathVariable String email) {
+        return investmentService.findInvestmentByEmail(email);
     }
 
 

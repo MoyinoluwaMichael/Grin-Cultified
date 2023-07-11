@@ -9,4 +9,6 @@ public interface FarmProjectService {
     FarmProject createFarmProject(FarmProjectCreationRequest farmProjectCreationRequest);
 
     List<FarmProject> getAllFarmProjects();
+
+    void deleteAll();
 }

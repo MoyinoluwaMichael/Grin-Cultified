@@ -38,4 +38,9 @@ public class FarmerServiceImpl implements FarmerService{
     public List<Farmer> getAllFarmers() {
         return farmerRepo.findAll();
     }
+
+    @Override
+    public void deleteAll() {
+        farmerRepo.deleteAll();
+    }
 }
