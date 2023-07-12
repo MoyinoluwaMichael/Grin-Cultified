@@ -21,11 +21,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-<<<<<<< HEAD
-=======
 import java.util.HashSet;
->>>>>>> b3c6df1ac12837e75a98a6fbed9bbc49f33156c9
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
