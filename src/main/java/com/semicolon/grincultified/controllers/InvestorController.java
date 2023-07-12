@@ -5,6 +5,7 @@ import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
+import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.investorService.InvestorService;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class InvestorController {
     }
 
     @PostMapping("/confirmRegistration")
-    public ResponseEntity<InvestorResponse> confirmRegistration(@RequestBody OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException {
+    public ResponseEntity<InvestorResponse> confirmRegistration(@RequestBody OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException {
         return investorService.confirmRegistration(otpVerificationRequest);
     }
 

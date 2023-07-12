@@ -67,8 +67,10 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
 
     private String generateAccessToken(Collection<? extends GrantedAuthority> authorities){
         Map<String, String> map = new HashMap<>();
+        int count = 1;
         for (GrantedAuthority authority:authorities) {
-            map.put(CLAIM_VALUE, authority.getAuthority());
+            map.put(CLAIM_VALUE+count, authority.getAuthority());
+            count++;
         }
         return JWT.create()
                 .withIssuedAt(now())
