@@ -2,6 +2,7 @@ package com.semicolon.grincultified.security;
 
 import com.semicolon.grincultified.security.filters.CultifyAuthenticationFilter;
 import com.semicolon.grincultified.security.filters.CultifyAuthorizationFilter;
+import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,12 +25,13 @@ import static org.springframework.http.HttpMethod.POST;
 public class SecurityConfig {
   private final AuthenticationManager authenticationManager;
   private final JwtUtility jwtUtil;
+  private final InvestorService investorService;
 
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil);
+      UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil, investorService);
       authenticationFilter.setFilterProcessesUrl(LOGIN_ENDPOINT);
         return http
                 .csrf(AbstractHttpConfigurer::disable)
