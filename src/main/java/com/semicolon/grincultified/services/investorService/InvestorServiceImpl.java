@@ -9,6 +9,7 @@ import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.dtos.responses.UserResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
+import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.mailService.MailService;
 import com.semicolon.grincultified.services.otpService.OtpService;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.semicolon.grincultified.data.models.Role.INVESTOR;
+import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -55,7 +57,7 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public ResponseEntity<InvestorResponse> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException {
+    public ResponseEntity<InvestorResponse> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException {
         InvestorRegistrationRequest investorRegistrationRequest = otpService.verifyOtp(otpVerificationRequest);
         User user = modelMapper.map(investorRegistrationRequest, User.class);
         Address address = new Address();

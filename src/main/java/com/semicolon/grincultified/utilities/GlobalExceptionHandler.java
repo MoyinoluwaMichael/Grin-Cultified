@@ -15,6 +15,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(InvalidOtpException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler
     public ResponseEntity<String> handleExceptions(AdminInvitationNotFoundException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }

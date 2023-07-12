@@ -5,6 +5,7 @@ import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
+import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
@@ -30,7 +31,7 @@ class InvestorServiceTest {
     private TemporaryUserService temporaryUserService;
 
     @BeforeEach
-    public void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+    public void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, InvalidOtpException {
         investorService.deleteAll();
         temporaryUserService.deleteAll();
         otpVerificationRequest = new OtpVerificationRequest();

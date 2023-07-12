@@ -82,8 +82,10 @@ public class CultifyAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private static void addClaimToUserAuthorities(List<SimpleGrantedAuthority> authorities, Claim claim) {
-        String role = claim.asMap().get(CLAIM_VALUE).toString();
-        authorities.add(new SimpleGrantedAuthority(role));
+        for (int i = 0; i < claim.asMap().size(); i++) {
+            String role = claim.asMap().get(CLAIM_VALUE+(i+1)).toString();
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
     }
 
 

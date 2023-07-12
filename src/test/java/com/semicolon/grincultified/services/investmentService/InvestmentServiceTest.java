@@ -7,6 +7,7 @@ import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
+import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.investmentservice.InvestmentService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
@@ -41,7 +42,7 @@ public class InvestmentServiceTest {
 
 
     @BeforeEach
-    void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+    void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, InvalidOtpException {
         investorService.deleteAll();
         investmentService.deleteAll();
         temporaryUserService.deleteAll();
