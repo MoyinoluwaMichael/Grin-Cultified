@@ -3,12 +3,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semicolon.grincultified.dtos.requests.LoginRequest;
+import com.semicolon.grincultified.services.investorService.InvestorService;
+import com.semicolon.grincultified.services.investorService.InvestorServiceImpl;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,11 +33,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtility jwtUtil;
     private final ObjectMapper mapper = new ObjectMapper();
+
+    private final InvestorService investorService;
 
 
     @Override
@@ -58,9 +64,14 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
         String accessToken = generateAccessToken(authResult.getAuthorities());
+        authResult.getDetails();
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put(ACCESS_TOKEN_VALUE, accessToken);
+        responseData.put("user", investorService.findByEmail((String) authResult.getPrincipal()));
         response.setContentType(APPLICATION_JSON_VALUE);
         response.getOutputStream().write(mapper.writeValueAsBytes(
-                Map.of(ACCESS_TOKEN_VALUE, accessToken)
+                responseData
+//                Map.of(ACCESS_TOKEN_VALUE, accessToken)
         ));
     }
 
