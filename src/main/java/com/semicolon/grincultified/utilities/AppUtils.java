@@ -15,6 +15,7 @@ public class AppUtils {
             %s
             """;
     public static final String REGISTRATION_OTP = "REGISTRATION OTP";
+    public static final String NO_INVESTMENTS_YET = "No investments yet";
     public static final String OTP_TOKEN = "Your otp is: %s";
     public static final String INVESTOR_ALREADY_EXIST = "Account with this email already exist";
     public static final String REGISTERED_SUCCESSFULLY = "Registered successfully";

@@ -2,6 +2,7 @@ package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
+import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
@@ -39,4 +40,5 @@ public class InvestorController {
     public ResponseEntity<List<InvestorResponse>> getAllInvestors() {
         return investorService.getAllInvestors();
     }
+
 }

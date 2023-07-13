@@ -6,6 +6,7 @@ import com.semicolon.grincultified.data.models.InvestmentStatus;
 import com.semicolon.grincultified.data.models.Investor;
 import com.semicolon.grincultified.data.repositories.InvestmentRepo;
 import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
+import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.services.investorService.InvestorService;
@@ -17,9 +18,13 @@ import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.semicolon.grincultified.utilities.AppUtils.NO_INVESTMENTS_YET;
 
 @Service
 @AllArgsConstructor
@@ -48,8 +53,8 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     @Override
     public ResponseEntity<List<InvestmentResponse>> findInvestmentByEmail(String email) {
-        InvestorResponse investor = investorService.findByEmail(email);
-        List<Investment> investments = investmentRepo.findAllByInvestorId(investor.getId());
+        InvestorResponse investorResponse = investorService.findByEmail(email);
+        List<Investment> investments = investmentRepo.findAllByInvestorId(investorResponse.getId());
         List<InvestmentResponse> investmentResponses = investments.stream().map(i->modelMapper.map(i, InvestmentResponse.class)).toList();
         return ResponseEntity.ok().body(investmentResponses);
     }
@@ -59,5 +64,32 @@ public class InvestmentServiceImpl implements InvestmentService {
         investmentRepo.deleteAll();
     }
 
+
+    @Override
+    public ResponseEntity<DashboardStatistic> getDashboardStatistics(String investorEmail) {
+        InvestorResponse investorResponse = investorService.findByEmail(investorEmail);
+        List<Investment> investments = investmentRepo.findAllByInvestorId(investorResponse.getId());
+        int totalNumberOfInvestments = investments.size();
+        BigDecimal totalAmountInvested = getTotalAmountInvested(investments);
+        String upcomingPaymentDate = getUpcomingPaymentDate(investments);
+        DashboardStatistic statistic = new DashboardStatistic(totalNumberOfInvestments, totalAmountInvested, upcomingPaymentDate);
+        return ResponseEntity.ok().body(statistic);
+    }
+
+    private String getUpcomingPaymentDate(List<Investment> investments) {
+        investments.sort(Comparator.comparing(Investment::getRedemptionDate));
+        if (investments.size()!= 0){
+            return investments.get(0).getRedemptionDate().toString();
+        }
+        return NO_INVESTMENTS_YET;
+    }
+
+    private BigDecimal getTotalAmountInvested(List<Investment> investments) {
+        BigDecimal amount = new BigDecimal(BigInteger.ZERO);
+        for (var investment : investments) {
+            amount.add(investment.getAmount());
+        }
+        return amount;
+    }
 
 }

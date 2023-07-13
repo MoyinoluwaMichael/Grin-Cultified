@@ -32,6 +32,14 @@ public class Investment {
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private InvestmentReturnType returnType;
+    @JsonSerialize(using = LongStreamSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime startingDate;
+    @JsonSerialize(using = LongStreamSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime redemptionDate;
+    @JsonSerialize(using = LongStreamSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @Enumerated(EnumType.STRING)
     private InvestmentStatus status;
     @JsonSerialize(using = LongStreamSerializer.class)
