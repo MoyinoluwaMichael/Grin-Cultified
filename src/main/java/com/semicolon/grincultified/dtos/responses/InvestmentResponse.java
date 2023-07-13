@@ -19,11 +19,18 @@ import java.time.LocalDateTime;
 @Getter
 public class InvestmentResponse {
     private Long id;
+    private Long investorId;
     private Long farmProjectId;
     private BigDecimal amount;
     private InvestmentReturnType returnType;
     private InvestmentStatus status;
     private RedemptionStatus redemptionStatus;
+    @JsonSerialize(using = LongStreamSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime startingDate;
+    @JsonSerialize(using = LongStreamSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime redemptionDate;
     @JsonSerialize(using = LongStreamSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime createdAt;

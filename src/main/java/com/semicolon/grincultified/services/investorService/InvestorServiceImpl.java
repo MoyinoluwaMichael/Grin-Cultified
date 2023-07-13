@@ -5,12 +5,11 @@ import com.semicolon.grincultified.data.repositories.InvestorRepo;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.requests.SendMailRequest;
-import com.semicolon.grincultified.dtos.responses.GenericResponse;
-import com.semicolon.grincultified.dtos.responses.InvestorResponse;
-import com.semicolon.grincultified.dtos.responses.UserResponse;
+import com.semicolon.grincultified.dtos.responses.*;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
+import com.semicolon.grincultified.services.investmentservice.InvestmentService;
 import com.semicolon.grincultified.services.mailService.MailService;
 import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
@@ -20,13 +19,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.semicolon.grincultified.data.models.Role.INVESTOR;
-import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -41,7 +42,7 @@ public class InvestorServiceImpl implements InvestorService {
 
 
     @Override
-    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
         if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
         temporaryUserService.validateDuplicateTemporaryInvestor(investorRegistrationRequest.getEmailAddress());
@@ -52,7 +53,6 @@ public class InvestorServiceImpl implements InvestorService {
         sendOtp(investorRegistrationRequest);
         GenericResponse<String> genericResponse = new GenericResponse<>();
         genericResponse.setMessage(CHECK_YOUR_MAIL_FOR_YOUR_OTP);
-        genericResponse.setData(otp.getOtpToken());
         return ResponseEntity.ok().body(genericResponse);
     }
 
@@ -111,4 +111,5 @@ public class InvestorServiceImpl implements InvestorService {
     public void deleteAll() {
         investorRepo.deleteAll();
     }
+
 }

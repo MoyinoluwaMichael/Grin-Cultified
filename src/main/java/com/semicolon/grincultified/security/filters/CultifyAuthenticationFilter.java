@@ -71,7 +71,6 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
         response.setContentType(APPLICATION_JSON_VALUE);
         response.getOutputStream().write(mapper.writeValueAsBytes(
                 responseData
-//                Map.of(ACCESS_TOKEN_VALUE, accessToken)
         ));
     }
 
