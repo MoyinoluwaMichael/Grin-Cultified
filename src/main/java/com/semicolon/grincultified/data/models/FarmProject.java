@@ -46,6 +46,7 @@ public class FarmProject {
 
     @PrePersist
     public void setFirst(){
+        status = FarmProjectStatus.AVAILABLE;
         uploadedAt = LocalDateTime.now();
     }
 

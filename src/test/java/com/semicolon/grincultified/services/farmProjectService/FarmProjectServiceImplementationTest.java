@@ -33,7 +33,7 @@ class FarmProjectServiceImplementationTest {
         farmProjectCreationRequest.setMaturityDate(LocalDateTime.now());
         farmProjectCreationRequest.setStatus(FarmProjectStatus.AVAILABLE);
         farmProjectCreationRequest.setInvestmentType(InvestmentType.FIXED_INCOME);
-        farmProjectCreationRequest.setPictures("Our Picture");
+        farmProjectCreationRequest.setPicture("Our Picture");
 
         farmProjectResponse = farmProjectService.createFarmProject(farmProjectCreationRequest);
 

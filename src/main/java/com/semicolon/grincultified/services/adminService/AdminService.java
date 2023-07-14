@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 public interface AdminService {
     ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException;
 
-    AdminResponse findByEmail(String emailAddress) throws AdminNotFoundException;
+    AdminResponse findByEmail(String emailAddress);
 
     String validateDuplicateExistence(String emailAddress) throws AdminAlreadyExistException;
 

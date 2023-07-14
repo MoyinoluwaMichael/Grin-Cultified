@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 public class FarmProjectCreationRequest {
     private String farmProduceSummary;
     private String description;
-    private Long numberOfInvestors;
-    private FarmProjectStatus status;
-    private String pictures;
+    private String picture;
     private int roi;
     private InvestmentType investmentType;
     private LocalDateTime startDate;

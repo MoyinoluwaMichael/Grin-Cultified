@@ -11,9 +11,7 @@ import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import com.semicolon.grincultified.services.investmentservice.InvestmentService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
-import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
-import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +71,7 @@ public class InvestmentServiceTest {
 
     @Test
     public void findInvestmentByEmailTest() {
-        var foundInvestment = investmentService.findInvestmentByEmail(investorRegistrationRequest.getEmailAddress());
+        var foundInvestment = investmentService.findAllOngoingInvestmentsByEmail(investorRegistrationRequest.getEmailAddress());
         assertTrue(foundInvestment.getBody().size() > 0);
     }
 }

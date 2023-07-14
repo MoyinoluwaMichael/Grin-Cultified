@@ -1,29 +1,26 @@
 package com.semicolon.grincultified.services.investmentservice;
 
 import com.semicolon.grincultified.data.models.Investment;
-import com.semicolon.grincultified.data.models.InvestmentReturnType;
 import com.semicolon.grincultified.data.models.InvestmentStatus;
-import com.semicolon.grincultified.data.models.Investor;
 import com.semicolon.grincultified.data.repositories.InvestmentRepo;
 import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
+import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.management.InstanceNotFoundException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+import static com.semicolon.grincultified.data.models.InvestmentStatus.MATURE;
+import static com.semicolon.grincultified.data.models.InvestmentStatus.ONGOING;
 import static com.semicolon.grincultified.utilities.AppUtils.NO_INVESTMENTS_YET;
 
 @Service
@@ -52,9 +49,9 @@ public class InvestmentServiceImpl implements InvestmentService {
     }
 
     @Override
-    public ResponseEntity<List<InvestmentResponse>> findInvestmentByEmail(String email) {
+    public ResponseEntity<List<InvestmentResponse>> findAllOngoingInvestmentsByEmail(String email) {
         InvestorResponse investorResponse = investorService.findByEmail(email);
-        List<Investment> investments = investmentRepo.findAllByInvestorId(investorResponse.getId());
+        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusAndStatusOrderByRedemptionDate(investorResponse.getId(), ONGOING, MATURE);
         List<InvestmentResponse> investmentResponses = investments.stream().map(i->modelMapper.map(i, InvestmentResponse.class)).toList();
         return ResponseEntity.ok().body(investmentResponses);
     }
@@ -68,7 +65,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public ResponseEntity<DashboardStatistic> getDashboardStatistics(String investorEmail) {
         InvestorResponse investorResponse = investorService.findByEmail(investorEmail);
-        List<Investment> investments = investmentRepo.findAllByInvestorId(investorResponse.getId());
+        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusAndStatusOrderByRedemptionDate(investorResponse.getId(), ONGOING, MATURE);
         int totalNumberOfInvestments = investments.size();
         BigDecimal totalAmountInvested = getTotalAmountInvested(investments);
         String upcomingPaymentDate = getUpcomingPaymentDate(investments);
@@ -77,7 +74,6 @@ public class InvestmentServiceImpl implements InvestmentService {
     }
 
     private String getUpcomingPaymentDate(List<Investment> investments) {
-        investments.sort(Comparator.comparing(Investment::getRedemptionDate));
         if (investments.size()!= 0){
             return investments.get(0).getRedemptionDate().toString();
         }
