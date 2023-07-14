@@ -1,6 +1,7 @@
 package com.semicolon.grincultified.services.farmProjectService;
 
 import com.semicolon.grincultified.data.models.FarmProject;
+import com.semicolon.grincultified.data.models.FarmProjectStatus;
 import com.semicolon.grincultified.data.models.InvestmentPlan;
 import com.semicolon.grincultified.data.repositories.FarmProjectRepository;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
@@ -36,5 +37,10 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
     @Override
     public void deleteAll() {
         farmProjectRepository.deleteAll();
+    }
+
+    @Override
+    public List<FarmProject> getAllFarmProjectsByStatus(FarmProjectStatus status) {
+        return farmProjectRepository.findAllByStatus(status);
     }
 }

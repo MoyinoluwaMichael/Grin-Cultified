@@ -2,9 +2,14 @@ package com.semicolon.grincultified.security.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.semicolon.grincultified.data.models.Role;
 import com.semicolon.grincultified.dtos.requests.LoginRequest;
+import com.semicolon.grincultified.dtos.responses.UserResponse;
+import com.semicolon.grincultified.exception.UserNotFoundException;
+import com.semicolon.grincultified.services.adminService.AdminService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.services.investorService.InvestorServiceImpl;
+import com.semicolon.grincultified.services.userService.UserService;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,9 +42,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtility jwtUtil;
-    private final ObjectMapper mapper = new ObjectMapper();
 
     private final InvestorService investorService;
+    private final AdminService adminService;
+    private final UserService userService;
+    private final ObjectMapper mapper = new ObjectMapper();
 
 
     @Override
@@ -67,7 +74,16 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
         authResult.getDetails();
         Map<String, Object> responseData = new HashMap<>();
         responseData.put(ACCESS_TOKEN_VALUE, accessToken);
-        responseData.put("user", investorService.findByEmail((String) authResult.getPrincipal()));
+        String email = (String) authResult.getPrincipal();
+        UserResponse foundUser;
+        try {
+            foundUser = userService.findByEmail(email);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (foundUser.getRoles().contains(Role.INVESTOR)){
+            responseData.put(USER, investorService.findByEmail(email));
+        }else responseData.put(USER, adminService.findByEmail(email));
         response.setContentType(APPLICATION_JSON_VALUE);
         response.getOutputStream().write(mapper.writeValueAsBytes(
                 responseData

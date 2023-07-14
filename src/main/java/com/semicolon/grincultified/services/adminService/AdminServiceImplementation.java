@@ -1,6 +1,8 @@
 package com.semicolon.grincultified.services.adminService;
 
-import com.semicolon.grincultified.data.models.*;
+import com.semicolon.grincultified.data.models.Address;
+import com.semicolon.grincultified.data.models.Admin;
+import com.semicolon.grincultified.data.models.User;
 import com.semicolon.grincultified.data.repositories.AdminRepository;
 import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.AdminResponse;
@@ -12,7 +14,6 @@ import com.semicolon.grincultified.services.adminInvitationService.AdminInvitati
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,6 @@ public class AdminServiceImplementation implements AdminService {
     private final ModelMapper modelMapper;
     private final AdminInvitationService adminInvitationService;
     private final PasswordEncoder passwordEncoder;
-
     @Override
     public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
         adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
@@ -39,6 +39,7 @@ public class AdminServiceImplementation implements AdminService {
         Address address = modelMapper.map(adminRegistrationRequest, Address.class);
         user.setAddress(address);
         Admin admin = new Admin();
+        admin.setUser(user);
         admin.getUser().setRoles(new HashSet<>());
         admin.getUser().getRoles().add(ORDINARY_ADMIN);
         admin.setUser(user);
@@ -54,9 +55,9 @@ public class AdminServiceImplementation implements AdminService {
     }
 
     @Override
-    public AdminResponse findByEmail(String emailAddress) throws AdminNotFoundException {
-        Admin admin = adminRepository.findAdminByUser_EmailAddress(emailAddress).orElseThrow(()->new AdminNotFoundException(ADMIN_NOT_FOUND));
-        return map(admin);
+    public AdminResponse findByEmail(String emailAddress) {
+        Optional<Admin> admin = adminRepository.findAdminByUser_EmailAddress(emailAddress);
+        return admin.map(this::map).orElse(null);
     }
 
     @Override

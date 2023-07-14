@@ -1,8 +1,11 @@
 package com.semicolon.grincultified.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semicolon.grincultified.security.filters.CultifyAuthenticationFilter;
 import com.semicolon.grincultified.security.filters.CultifyAuthorizationFilter;
+import com.semicolon.grincultified.services.adminService.AdminService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
+import com.semicolon.grincultified.services.userService.UserService;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +29,14 @@ public class SecurityConfig {
   private final AuthenticationManager authenticationManager;
   private final JwtUtility jwtUtil;
   private final InvestorService investorService;
+  private final AdminService adminService;
+  private final UserService userService;
 
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil, investorService);
+      UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil, investorService, adminService, userService);
       authenticationFilter.setFilterProcessesUrl(LOGIN_ENDPOINT);
         return http
                 .csrf(AbstractHttpConfigurer::disable)

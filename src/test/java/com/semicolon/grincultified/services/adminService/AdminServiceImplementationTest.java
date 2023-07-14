@@ -28,16 +28,13 @@ class AdminServiceImplementationTest {
 
     @BeforeEach
     void setUp() throws AdminInvitationNotFoundException, AdminAlreadyExistException, AdminNotFoundException {
-        adminService.deleteAll();
-        adminInvitationService.deleteAll();
-        superAdminService.sendInvitationLink("samuel123@gmail.com");
+        superAdminService.sendInvitationLink("ogunsmoyin.m@gmail.com");
         adminRegistrationRequest = new AdminRegistrationRequest();
-        adminRegistrationRequest.setEmailAddress("samuel123@gmail.com");
-        adminRegistrationRequest.setPassword("12345");
-        adminRegistrationRequest.setFirstName("Samuel");
-        adminRegistrationRequest.setLastName("Sung");
-        adminRegistrationRequest.setPhoneNumber("08012345678");
-        adminRegistrationRequest.setAdminType(AdminType.ORDINARY);
+        adminRegistrationRequest.setEmailAddress("ogunsmoyin.m@gmail.com");
+        adminRegistrationRequest.setPassword("Renike@123");
+        adminRegistrationRequest.setFirstName("Moyin");
+        adminRegistrationRequest.setLastName("Mike");
+        adminRegistrationRequest.setPhoneNumber("08146400010");
 
         adminResponse = adminService.register(adminRegistrationRequest).getBody();
     }
