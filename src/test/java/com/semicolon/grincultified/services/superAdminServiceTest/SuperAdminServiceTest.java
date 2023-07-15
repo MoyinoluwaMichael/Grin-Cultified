@@ -28,7 +28,7 @@ public class SuperAdminServiceTest {
     private ObjectMapper objectMapper;
 
     @Test void testThatSuperAdminCanSendInvitationLinkToAUser() throws Exception {
-        GenericResponse<String> message = superAdminService.sendInvitationLink("ogunsmoyin.m@gmail.com");
+        GenericResponse<String> message = superAdminService.sendInvitationLink("nwachukwusamuel123@gmail.com");
         assertThat(message).isNotNull();
     }
 }

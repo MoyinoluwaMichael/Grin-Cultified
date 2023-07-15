@@ -1,5 +1,6 @@
 package com.semicolon.grincultified;
 
+import com.semicolon.grincultified.data.repositories.AdminInvitationRepository;
 import com.semicolon.grincultified.data.repositories.AdminRepository;
 import com.semicolon.grincultified.data.repositories.OtpRepository;
 import com.semicolon.grincultified.data.repositories.UserRepository;
@@ -22,9 +23,12 @@ class GrinCultifiedApplicationTests {
 	private AdminRepository adminRepository;
 	@Autowired
 	private OtpRepository otpRepository;
+	@Autowired
+	private AdminInvitationRepository adminInvitationRepository;
 
 	@Test
 	void contextLoads() {
+		adminInvitationRepository.deleteAll();
 		adminRepository.deleteAll();
 		investorService.deleteAll();
 		userRepository.deleteAll();

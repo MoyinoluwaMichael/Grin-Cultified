@@ -16,11 +16,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.semicolon.grincultified.utilities.AppUtils.*;
+import static java.time.Instant.now;
 
 @AllArgsConstructor
 @Getter
 public class JwtUtility {
     private final String secret;
+
 
 
     public Map<String, Claim> extractClaimsFrom(String token) throws AuthenticationException {
@@ -29,19 +31,23 @@ public class JwtUtility {
         return decodedJwt.getClaims();
     }
 
+    public String extractEmailFrom(String token) throws AuthenticationException {
+        DecodedJWT decodedJwt = validateToken(token);
+        if (decodedJwt.getClaim(EMAIL_VALUE)==null) throw new AuthenticationException(INVALID_TOKEN);
+        return decodedJwt.getClaim(EMAIL_VALUE).toString();
+    }
+
     private DecodedJWT validateToken(String token) {
         return JWT.require(Algorithm.HMAC512(secret))
                 .build().verify(token);
     }
 
-    public static String generateEncryptedLink(String userEmail) {
-        return Jwts.builder()
-                .claim(EMAIL_VALUE, userEmail)
-                .setSubject(CULTIFY)
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(SIXTY, ChronoUnit.MINUTES)))
-                .compact().concat("/");
+    public String generateEncryptedLink(String userEmail) {
+        return JWT.create()
+                .withIssuedAt(now())
+                .withExpiresAt(now().plusSeconds(1200L))
+                .withClaim(EMAIL_VALUE, userEmail)
+                .sign(Algorithm.HMAC512(secret.getBytes()));
 
     }
 
