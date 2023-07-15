@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @SpringBootTest
@@ -26,12 +27,12 @@ class FarmProjectServiceImplementationTest {
         farmProjectCreationRequest = new FarmProjectCreationRequest();
         farmProjectCreationRequest.setDescription("Expanding Carrot Production in Lavun LGA of Nigeria");
         farmProjectCreationRequest.setFarmProduceSummary("Carrot");
-        farmProjectCreationRequest.setNumberOfInvestors(10L);
         farmProjectCreationRequest.setPayoutType("Easy Cash");
         farmProjectCreationRequest.setRoi(30);
+        farmProjectCreationRequest.setLocation("52, wukari srteet Kano state");
+        farmProjectCreationRequest.setPricePerUnit(BigDecimal.valueOf(200));
         farmProjectCreationRequest.setStartDate(LocalDateTime.now());
         farmProjectCreationRequest.setMaturityDate(LocalDateTime.now());
-        farmProjectCreationRequest.setStatus(FarmProjectStatus.AVAILABLE);
         farmProjectCreationRequest.setInvestmentType(InvestmentType.FIXED_INCOME);
         farmProjectCreationRequest.setPicture("Our Picture");
 

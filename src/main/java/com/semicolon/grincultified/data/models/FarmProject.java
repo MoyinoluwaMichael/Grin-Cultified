@@ -35,6 +35,8 @@ public class FarmProject {
     private String farmProduceSummary;
     private String description;
     private Long numberOfInvestors;
+    private BigDecimal pricePerUnit;
+    private String location;
     @Enumerated(EnumType.STRING)
     private FarmProjectStatus status;
     private String pictures;
