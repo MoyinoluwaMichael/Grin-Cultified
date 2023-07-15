@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,14 +25,14 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
         FarmProject farmProject = modelMapper.map(farmProjectCreationRequest, FarmProject.class);
         farmProject.setInvestmentPlan(investmentPlan);
         FarmProject savedFarmProject = farmProjectRepository.save(farmProject);
-
         return savedFarmProject;
-
     }
 
     @Override
     public List<FarmProject> getAllFarmProjects() {
-        return farmProjectRepository.findAll();
+        List<FarmProject> farmProjects = farmProjectRepository.findAll();
+        farmProjects.sort(Comparator.comparing(FarmProject::getUploadedAt));
+        return farmProjects;
     }
 
     @Override

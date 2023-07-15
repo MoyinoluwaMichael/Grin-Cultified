@@ -10,6 +10,7 @@ import com.semicolon.grincultified.dtos.responses.UserResponse;
 import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
 import com.semicolon.grincultified.exception.AdminNotFoundException;
+import com.semicolon.grincultified.exception.AuthenticationException;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,8 +33,9 @@ public class AdminServiceImplementation implements AdminService {
     private final AdminInvitationService adminInvitationService;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException {
-        adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+    public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
+        String email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        adminRegistrationRequest.setEmailAddress(email);
         adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));
         User user = modelMapper.map(adminRegistrationRequest, User.class);
         Address address = modelMapper.map(adminRegistrationRequest, Address.class);

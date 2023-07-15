@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface InvestmentRepo extends JpaRepository<Investment, Long>{
-    List<Investment> findAllByInvestorIdAndStatusAndStatusOrderByRedemptionDate(Long investorId, InvestmentStatus status, InvestmentStatus status2);
+    List<Investment> findAllByInvestorIdAndStatusOrStatus(Long investorId, InvestmentStatus status, InvestmentStatus status2);
 }

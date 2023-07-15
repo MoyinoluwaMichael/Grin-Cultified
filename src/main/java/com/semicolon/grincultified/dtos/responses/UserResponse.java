@@ -28,4 +28,19 @@ public class UserResponse {
     private LocalDateTime createdAt;
     private String profilePicture;
     private Set<Role> roles;
+
+    @Override
+    public String toString() {
+        return "UserResponse{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", address=" + address +
+                ", createdAt=" + createdAt +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

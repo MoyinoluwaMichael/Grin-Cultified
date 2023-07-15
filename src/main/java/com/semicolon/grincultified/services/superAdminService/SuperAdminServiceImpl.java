@@ -25,6 +25,7 @@ public class SuperAdminServiceImpl implements SuperAdminService{
     private final MailService mailService;
     private final AdminInvitationService adminInvitationService;
     private final AdminService adminService;
+    private final JwtUtility jwtUtility;
 
     @Override
     public GenericResponse<String> sendInvitationLink(String emailAddress) throws AdminAlreadyExistException {
@@ -32,7 +33,7 @@ public class SuperAdminServiceImpl implements SuperAdminService{
         AdminInvitation invitation = new AdminInvitation();
         invitation.setEmail(emailAddress);
         adminInvitationService.registerInvitation(invitation);
-        String encryptedEmail = JwtUtility.generateEncryptedLink(emailAddress);
+        String encryptedEmail = jwtUtility.generateEncryptedLink(emailAddress);
         String invitationLink = ADMIN_REGISTRATION_PAGE_URL.concat(encryptedEmail);
         SendMailRequest sendMailRequest = new SendMailRequest();
         sendMailRequest.setFrom(SYSTEM_MAIL);

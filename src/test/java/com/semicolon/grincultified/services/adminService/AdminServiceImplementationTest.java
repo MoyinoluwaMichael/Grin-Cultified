@@ -6,6 +6,7 @@ import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
 import com.semicolon.grincultified.exception.AdminNotFoundException;
+import com.semicolon.grincultified.exception.AuthenticationException;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
 import com.semicolon.grincultified.services.superAdminService.SuperAdminService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class AdminServiceImplementationTest {
     AdminResponse adminResponse;
 
     @BeforeEach
-    void setUp() throws AdminInvitationNotFoundException, AdminAlreadyExistException, AdminNotFoundException {
+    void setUp() throws AdminInvitationNotFoundException, AdminAlreadyExistException, AdminNotFoundException, AuthenticationException {
         superAdminService.sendInvitationLink("ogunsmoyin.m@gmail.com");
         adminRegistrationRequest = new AdminRegistrationRequest();
         adminRegistrationRequest.setEmailAddress("ogunsmoyin.m@gmail.com");
