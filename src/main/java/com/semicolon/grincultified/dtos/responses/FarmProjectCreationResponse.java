@@ -14,7 +14,7 @@ public class FarmProjectCreationResponse {
     private String description;
     private Long numberOfInvestors;
     private FarmProjectStatus status;
-    private String pictures;
+    private String picture;
     private LocalDateTime uploadedAt;
 
     @Override
@@ -24,7 +24,7 @@ public class FarmProjectCreationResponse {
                 ", description='" + description + '\'' +
                 ", numberOfInvestors=" + numberOfInvestors +
                 ", status=" + status +
-                ", pictures='" + pictures + '\'' +
+                ", pictures='" + picture + '\'' +
                 ", uploadedAt=" + uploadedAt +
                 '}';
     }

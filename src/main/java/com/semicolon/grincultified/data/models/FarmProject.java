@@ -37,7 +37,8 @@ public class FarmProject {
     private Long numberOfInvestors;
     @Enumerated(EnumType.STRING)
     private FarmProjectStatus status;
-    private String pictures;
+    private String picture;
+    private String location;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private InvestmentPlan investmentPlan;
     @JsonSerialize(using = LocalDateTimeSerializer.class)

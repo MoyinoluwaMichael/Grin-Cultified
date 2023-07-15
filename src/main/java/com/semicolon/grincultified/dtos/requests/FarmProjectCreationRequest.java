@@ -12,6 +12,7 @@ public class FarmProjectCreationRequest {
     private String farmProduceSummary;
     private String description;
     private String picture;
+    private String location;
     private int roi;
     private InvestmentType investmentType;
     private LocalDateTime startDate;

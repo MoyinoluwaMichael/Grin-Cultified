@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,26 +42,29 @@ public class InvestmentServiceTest {
 
     @BeforeEach
     void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, InvalidOtpException {
-        investorService.deleteAll();
-        investmentService.deleteAll();
-        temporaryUserService.deleteAll();
-        otpVerificationRequest = new OtpVerificationRequest();
-        investorRegistrationRequest = new InvestorRegistrationRequest();
-        investorRegistrationRequest.setEmailAddress("jenob77428@devswp.com");
-        investorRegistrationRequest.setFirstName("first");
-        investorRegistrationRequest.setLastName("last");
-        investorRegistrationRequest.setPhoneNumber("0909999999");
-        investorRegistrationRequest.setPassword("1234");
-        var response = investorService.initiateRegistration(investorRegistrationRequest);
-        otp = response.getBody().getData();
-        otpVerificationRequest.setOtp(otp);
-        otpVerificationRequest.setEmailAddress("jenob77428@devswp.com");
-        investorResponse = investorService.confirmRegistration(otpVerificationRequest);
+//        investorService.deleteAll();
+//        investmentService.deleteAll();
+//        temporaryUserService.deleteAll();
+//        otpVerificationRequest = new OtpVerificationRequest();
+//        investorRegistrationRequest = new InvestorRegistrationRequest();
+//        investorRegistrationRequest.setEmailAddress("jenob77428@devswp.com");
+//        investorRegistrationRequest.setFirstName("first");
+//        investorRegistrationRequest.setLastName("last");
+//        investorRegistrationRequest.setPhoneNumber("0909999999");
+//        investorRegistrationRequest.setPassword("1234");
+//        var response = investorService.initiateRegistration(investorRegistrationRequest);
+//        otp = response.getBody().getData();
+//        otpVerificationRequest.setOtp(otp);
+//        otpVerificationRequest.setEmailAddress("jenob77428@devswp.com");
+//        investorResponse = investorService.confirmRegistration(otpVerificationRequest);
+        InvestorResponse investorResponse1 = investorService.findByEmail("m.ogunmoroti@native.semicolon.africa");
         investmentRegistrationRequest = new InvestmentRegistrationRequest();
         investmentRegistrationRequest.setAmount(BigDecimal.valueOf(5000));
         investmentRegistrationRequest.setFarmProjectId(1L);
-        investmentRegistrationRequest.setInvestorId(investorResponse.getBody().getId());
+        investmentRegistrationRequest.setInvestorId(investorResponse1.getId());
         investmentRegistrationRequest.setReturnType(InvestmentReturnType.MONEY);
+        investmentRegistrationRequest.setStartingDate(LocalDateTime.now());
+        investmentRegistrationRequest.setRedemptionDate(LocalDateTime.now().plusMonths(9L));
         investmentResponse = investmentService.initiateInvestment(investmentRegistrationRequest);
     }
 

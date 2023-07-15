@@ -51,7 +51,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public ResponseEntity<List<InvestmentResponse>> findAllOngoingInvestmentsByEmail(String email) {
         InvestorResponse investorResponse = investorService.findByEmail(email);
-        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusAndStatusOrderByRedemptionDate(investorResponse.getId(), ONGOING, MATURE);
+        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusOrStatus(investorResponse.getId(), ONGOING, MATURE);
         List<InvestmentResponse> investmentResponses = investments.stream().map(i->modelMapper.map(i, InvestmentResponse.class)).toList();
         return ResponseEntity.ok().body(investmentResponses);
     }
@@ -65,7 +65,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public ResponseEntity<DashboardStatistic> getDashboardStatistics(String investorEmail) {
         InvestorResponse investorResponse = investorService.findByEmail(investorEmail);
-        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusAndStatusOrderByRedemptionDate(investorResponse.getId(), ONGOING, MATURE);
+        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusOrStatus(investorResponse.getId(), ONGOING, MATURE);
         int totalNumberOfInvestments = investments.size();
         BigDecimal totalAmountInvested = getTotalAmountInvested(investments);
         String upcomingPaymentDate = getUpcomingPaymentDate(investments);
@@ -75,7 +75,7 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     private String getUpcomingPaymentDate(List<Investment> investments) {
         if (investments.size()!= 0){
-            return investments.get(0).getRedemptionDate().toString();
+            return investments.get(0).getRedemptionDate().toString().split("T")[0];
         }
         return NO_INVESTMENTS_YET;
     }
@@ -83,7 +83,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     private BigDecimal getTotalAmountInvested(List<Investment> investments) {
         BigDecimal amount = new BigDecimal(BigInteger.ZERO);
         for (var investment : investments) {
-            amount.add(investment.getAmount());
+            amount = amount.add(investment.getAmount());
         }
         return amount;
     }
