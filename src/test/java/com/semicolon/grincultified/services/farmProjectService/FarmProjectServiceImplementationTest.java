@@ -26,12 +26,10 @@ class FarmProjectServiceImplementationTest {
         farmProjectCreationRequest = new FarmProjectCreationRequest();
         farmProjectCreationRequest.setDescription("Expanding Carrot Production in Lavun LGA of Nigeria");
         farmProjectCreationRequest.setFarmProduceSummary("Carrot");
-        farmProjectCreationRequest.setNumberOfInvestors(10L);
         farmProjectCreationRequest.setPayoutType("Easy Cash");
         farmProjectCreationRequest.setRoi(30);
         farmProjectCreationRequest.setStartDate(LocalDateTime.now());
         farmProjectCreationRequest.setMaturityDate(LocalDateTime.now());
-        farmProjectCreationRequest.setStatus(FarmProjectStatus.AVAILABLE);
         farmProjectCreationRequest.setInvestmentType(InvestmentType.FIXED_INCOME);
         farmProjectCreationRequest.setPicture("Our Picture");
 

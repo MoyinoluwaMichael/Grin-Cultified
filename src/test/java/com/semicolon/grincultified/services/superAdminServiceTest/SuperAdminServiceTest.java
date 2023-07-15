@@ -1,6 +1,7 @@
 package com.semicolon.grincultified.services.superAdminServiceTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.semicolon.grincultified.data.repositories.AdminInvitationRepository;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.services.superAdminService.SuperAdminService;
 import org.junit.jupiter.api.Assertions;
@@ -23,12 +24,15 @@ public class SuperAdminServiceTest {
     @Autowired
     private SuperAdminService superAdminService;
     @Autowired
+    private AdminInvitationRepository adminInvitationRepository;
+    @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test void testThatSuperAdminCanSendInvitationLinkToAUser() throws Exception {
-        GenericResponse<String> message = superAdminService.sendInvitationLink("ogunsmoyin.m@gmail.com");
+        adminInvitationRepository.deleteAll();
+        GenericResponse<String> message = superAdminService.sendInvitationLink("michael.ogunmoroti@softenginegroup.net");
         assertThat(message).isNotNull();
     }
 }

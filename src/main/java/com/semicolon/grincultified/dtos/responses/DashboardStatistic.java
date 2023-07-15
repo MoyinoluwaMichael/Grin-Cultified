@@ -16,4 +16,13 @@ public class DashboardStatistic {
     private int totalNumberOfInvestments;
     private BigDecimal totalAmountInvested;
     private String upcomingPaymentDate;
+
+    @Override
+    public String toString() {
+        return "DashboardStatistic{" +
+                "totalNumberOfInvestments=" + totalNumberOfInvestments +
+                ", totalAmountInvested=" + totalAmountInvested +
+                ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
+                '}';
+    }
 }
