@@ -101,7 +101,7 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
         }
         return JWT.create()
                 .withIssuedAt(now())
-                .withExpiresAt(now().plusSeconds(1200L))
+                .withExpiresAt(now().plusSeconds(12000L))
                 .withClaim(ROLES_VALUE, map)
                 .sign(Algorithm.HMAC512(jwtUtil.getSecret().getBytes()));
     }

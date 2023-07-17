@@ -52,7 +52,7 @@ public class CultifyAuthorizationFilter extends OncePerRequestFilter {
         try {
             authorize(request);
             filterChain.doFilter(request, response);
-        } catch (Exception exception) {
+          } catch (Exception exception) {
             log.info("Authorization Exception {}", exception.getMessage());
             Map<String, String> errors = new HashMap<>();
             errors.put(ERROR_VALUE, exception.getMessage());

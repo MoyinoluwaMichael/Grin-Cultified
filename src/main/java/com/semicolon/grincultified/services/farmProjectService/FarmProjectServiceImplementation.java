@@ -9,8 +9,10 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -31,7 +33,7 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
     @Override
     public List<FarmProject> getAllFarmProjects() {
         List<FarmProject> farmProjects = farmProjectRepository.findAll();
-        farmProjects.sort(Comparator.comparing(FarmProject::getUploadedAt));
+        farmProjects.sort(Comparator.comparing(FarmProject::getUploadedAt).reversed());
         return farmProjects;
     }
 
@@ -43,5 +45,23 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
     @Override
     public List<FarmProject> getAllFarmProjectsByStatus(FarmProjectStatus status) {
         return farmProjectRepository.findAllByStatus(status);
+    }
+
+    @Override
+    public void updateProjectAvailability(Long farmProjectId, BigDecimal amount) {
+        System.out.println(farmProjectId);
+        Optional<FarmProject> foundFarmProject = farmProjectRepository.findById(farmProjectId);
+        if (foundFarmProject.isPresent()){
+            System.out.println(foundFarmProject.get());
+            FarmProject farmProject = foundFarmProject.get();
+            BigDecimal unitPrice = farmProject.getInvestmentPlan().getAmountPerUnit();
+            int noOfUnits = Integer.parseInt(amount.divide(unitPrice).toPlainString());
+            int numberOfUnitInvestedSoFar = farmProject.getNumberOfUnitInvestedSoFar();
+            farmProject.setNumberOfUnitInvestedSoFar(numberOfUnitInvestedSoFar+noOfUnits);
+            if (farmProject.getNumberOfUnitInvestedSoFar() == farmProject.getInvestmentPlan().getMaximumNumberOfUnit()){
+                farmProject.setStatus(FarmProjectStatus.CLOSED);
+            }
+            farmProjectRepository.save(farmProject);
+        }
     }
 }
