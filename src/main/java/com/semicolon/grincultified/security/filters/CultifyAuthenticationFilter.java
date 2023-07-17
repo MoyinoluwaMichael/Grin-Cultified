@@ -42,7 +42,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtility jwtUtil;
-
     private final InvestorService investorService;
     private final AdminService adminService;
     private final UserService userService;
