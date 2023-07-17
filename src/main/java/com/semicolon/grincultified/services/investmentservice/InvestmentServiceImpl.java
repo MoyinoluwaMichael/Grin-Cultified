@@ -9,6 +9,7 @@ import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
+import com.semicolon.grincultified.utilities.CultifyMapper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +29,18 @@ import static com.semicolon.grincultified.utilities.AppUtils.NO_INVESTMENTS_YET;
 public class InvestmentServiceImpl implements InvestmentService {
 
     private final InvestmentRepo investmentRepo;
+    private final FarmProjectService farmProjectService;
     private final InvestorService investorService;
     private final ModelMapper modelMapper;
+    private final CultifyMapper cultifyMapper;
 
 
     @Override
     public ResponseEntity<InvestmentResponse> initiateInvestment(InvestmentRegistrationRequest investmentRegistrationRequest) {
-        Investment investment = modelMapper.map(investmentRegistrationRequest, Investment.class);
+        Investment investment = cultifyMapper.map(investmentRegistrationRequest);
         Investment savedInvestment = investmentRepo.save(investment);
         InvestmentResponse investmentNow = modelMapper.map(savedInvestment, InvestmentResponse.class);
+        farmProjectService.updateProjectAvailability(investmentRegistrationRequest.getFarmProjectId(), investmentRegistrationRequest.getAmount());
         return ResponseEntity.ok().body(investmentNow);
     }
 

@@ -51,6 +51,7 @@ public class AppUtils {
     public static final String CLAIM_VALUE = "claim";
     public static final String USER_WITH_EMAIL_NOT_FOUND = "User with email %s not found";
     public static final String LOGIN_ENDPOINT = "/semicolon/cultify/v1/api/login";
+    public static final String INVESTMENT_CREATION_ENDPOINT = "/semicolon/cultify/v1/api/investment/initiateInvestment";
     public static final String OTP_VERIFICATION_ENDPOINT = "/semicolon/cultify/v1/api/investor/confirmRegistration";
     public static final String INVESTOR_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/investor/registration";
     public static final String ADMIN_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/admin/registration";
