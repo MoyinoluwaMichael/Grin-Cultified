@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -63,5 +64,10 @@ public class FarmProjectServiceImplementation implements FarmProjectService {
             }
             farmProjectRepository.save(farmProject);
         }
+    }
+
+    @Override
+    public List<FarmProject> findAllNotMaturedProjects() {
+        return farmProjectRepository.findAllNotMaturedProjects(LocalDate.now());
     }
 }

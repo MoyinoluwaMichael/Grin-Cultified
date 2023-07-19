@@ -2,6 +2,8 @@ package com.semicolon.grincultified;
 
 import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.InvestmentType;
+import com.semicolon.grincultified.data.models.Role;
+import com.semicolon.grincultified.data.models.User;
 import com.semicolon.grincultified.data.repositories.*;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -47,7 +50,7 @@ class GrinCultifiedApplicationTests {
 
 	@Test
 	void contextLoads() {
-		investmentRepo.deleteAll();
+//		investmentRepo.deleteAll();
 //		adminRepository.deleteAll();
 //		investorService.deleteAll();
 //		userRepository.deleteAll();
@@ -90,6 +93,13 @@ class GrinCultifiedApplicationTests {
 		BigDecimal amount = BigDecimal.valueOf(10000);
 		int noOfUnits = Integer.parseInt(amount.divide(BigDecimal.valueOf(5000)).toPlainString());
 		System.out.println(noOfUnits);
+	}
+
+	@Test void createSuperAdmin(){
+		User user = userRepository.findByEmailAddress("moyinoluwa").get();
+		user.setRoles(new HashSet<>());
+		user.getRoles().add(Role.SUPER_ADMIN);
+		userRepository.save(user);
 	}
 
 }

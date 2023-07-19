@@ -19,4 +19,13 @@ public class AdminResponse {
     private Long id;
     private UserResponse userResponse;
     private AdminType adminType;
+
+    @Override
+    public String toString() {
+        return "AdminResponse{" +
+                "id=" + id +
+                ", userResponse=" + userResponse +
+                ", adminType=" + adminType +
+                '}';
+    }
 }

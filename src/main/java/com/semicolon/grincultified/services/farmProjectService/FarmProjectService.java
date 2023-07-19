@@ -17,4 +17,7 @@ public interface FarmProjectService {
     List<FarmProject> getAllFarmProjectsByStatus(FarmProjectStatus status);
 
     void updateProjectAvailability(Long farmProjectId, BigDecimal amount);
+
+    List<FarmProject> findAllNotMaturedProjects();
+
 }

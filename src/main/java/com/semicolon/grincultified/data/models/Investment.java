@@ -31,6 +31,8 @@ public class Investment {
     private Long id;
     private Long investorId;
     private Long farmProjectId;
+    private int roi;
+    private String farmProjectName;
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private InvestmentReturnType returnType;

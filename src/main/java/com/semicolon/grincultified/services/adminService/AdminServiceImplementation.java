@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
@@ -72,5 +73,16 @@ public class AdminServiceImplementation implements AdminService {
     @Override
     public void deleteAll() {
         adminRepository.deleteAll();
+    }
+
+    @Override
+    public Long count() {
+        return adminRepository.count();
+    }
+
+    @Override
+    public ResponseEntity<List<AdminResponse>> findAll() {
+        List<AdminResponse> adminResponses = adminRepository.findAll().stream().map(this::map).toList();
+        return ResponseEntity.ok().body(adminResponses);
     }
 }

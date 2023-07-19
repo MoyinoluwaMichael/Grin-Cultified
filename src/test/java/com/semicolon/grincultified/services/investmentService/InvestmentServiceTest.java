@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,15 +58,15 @@ public class InvestmentServiceTest {
 //        otpVerificationRequest.setOtp(otp);
 //        otpVerificationRequest.setEmailAddress("jenob77428@devswp.com");
 //        investorResponse = investorService.confirmRegistration(otpVerificationRequest);
-        InvestorResponse investorResponse1 = investorService.findByEmail("m.ogunmoroti@native.semicolon.africa");
-        investmentRegistrationRequest = new InvestmentRegistrationRequest();
-        investmentRegistrationRequest.setAmount(BigDecimal.valueOf(5000));
-        investmentRegistrationRequest.setFarmProjectId(1L);
-        investmentRegistrationRequest.setInvestorId(investorResponse1.getId());
-        investmentRegistrationRequest.setReturnType(InvestmentReturnType.MONEY);
-        investmentRegistrationRequest.setStartingDate(LocalDateTime.now());
-        investmentRegistrationRequest.setRedemptionDate(LocalDateTime.now().plusMonths(9L));
-        investmentResponse = investmentService.initiateInvestment(investmentRegistrationRequest);
+//        InvestorResponse investorResponse1 = investorService.findByEmail("m.ogunmoroti@native.semicolon.africa");
+//        investmentRegistrationRequest = new InvestmentRegistrationRequest();
+//        investmentRegistrationRequest.setAmount(BigDecimal.valueOf(5000));
+//        investmentRegistrationRequest.setFarmProjectId(1L);
+//        investmentRegistrationRequest.setInvestorId(investorResponse1.getId());
+//        investmentRegistrationRequest.setReturnType(InvestmentReturnType.MONEY);
+//        investmentRegistrationRequest.setStartingDate(LocalDate.now());
+//        investmentRegistrationRequest.setRedemptionDate(LocalDate.now().plusMonths(9L));
+//        investmentResponse = investmentService.initiateInvestment(investmentRegistrationRequest);
     }
 
     @Test
@@ -77,5 +78,9 @@ public class InvestmentServiceTest {
     public void findInvestmentByEmailTest() {
         var foundInvestment = investmentService.findAllOngoingInvestmentsByEmail(investorRegistrationRequest.getEmailAddress());
         assertTrue(foundInvestment.getBody().size() > 0);
+    }
+
+    @Test void getAllInvestmentsByEmailTest(){
+        System.out.println(investmentService.findAllOngoingInvestmentsByEmail("m.ogunmoroti@native.semicolon.africa"));
     }
 }

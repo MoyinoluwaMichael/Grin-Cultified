@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 @Getter
 public class InvestmentRegistrationRequest {
     private Long farmProjectId;
+    private String farmProjectName;
+    private int roi;
     private Long investorId;
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)

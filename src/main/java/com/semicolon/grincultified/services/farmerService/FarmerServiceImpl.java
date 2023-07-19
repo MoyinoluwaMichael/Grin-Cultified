@@ -43,4 +43,9 @@ public class FarmerServiceImpl implements FarmerService{
     public void deleteAll() {
         farmerRepo.deleteAll();
     }
+
+    @Override
+    public Long count() {
+        return farmerRepo.count();
+    }
 }
