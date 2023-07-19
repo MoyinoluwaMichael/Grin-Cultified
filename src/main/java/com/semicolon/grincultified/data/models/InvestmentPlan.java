@@ -35,7 +35,7 @@ public class InvestmentPlan {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate maturityDate;
-    private  String payOutType;
+    private String payOutType;
 
 
 }

@@ -1,7 +1,6 @@
 package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
-import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.services.investmentservice.InvestmentService;
 import lombok.AllArgsConstructor;
@@ -31,10 +30,4 @@ public class InvestmentController {
     public ResponseEntity<List<InvestmentResponse>> findAllByEmail(@PathVariable String email) {
         return investmentService.findAllOngoingInvestmentsByEmail(email);
     }
-
-    @GetMapping("/getDashboardStatistics/{investorEmail}")
-    public ResponseEntity<DashboardStatistic> getDashboardStatistics(@PathVariable String investorEmail){
-        return investmentService.getDashboardStatistics(investorEmail);
-    }
-
 }

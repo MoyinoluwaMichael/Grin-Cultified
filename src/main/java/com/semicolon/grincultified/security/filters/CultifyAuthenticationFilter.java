@@ -4,6 +4,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semicolon.grincultified.data.models.Role;
 import com.semicolon.grincultified.dtos.requests.LoginRequest;
+import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.dtos.responses.UserResponse;
 import com.semicolon.grincultified.exception.UserNotFoundException;
 import com.semicolon.grincultified.services.adminService.AdminService;
@@ -83,7 +84,10 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
         }
         if (foundUser.getRoles().contains(Role.INVESTOR)){
             responseData.put(USER, investorService.findByEmail(email));
-        }else responseData.put(USER, adminService.findByEmail(email));
+        }else {
+            AdminResponse admin = adminService.findByEmail(email);
+            responseData.put(USER, admin);
+        }
         response.setContentType(APPLICATION_JSON_VALUE);
         response.getOutputStream().write(mapper.writeValueAsBytes(
                 responseData

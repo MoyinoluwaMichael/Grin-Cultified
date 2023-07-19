@@ -1,6 +1,5 @@
 package com.semicolon.grincultified.dtos.responses;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,14 +11,14 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DashboardStatistic {
+public class InvestorDashboardStatistic {
     private int totalNumberOfInvestments;
     private BigDecimal totalAmountInvested;
     private String upcomingPaymentDate;
 
     @Override
     public String toString() {
-        return "DashboardStatistic{" +
+        return "InvestorDashboardStatistic{" +
                 "totalNumberOfInvestments=" + totalNumberOfInvestments +
                 ", totalAmountInvested=" + totalAmountInvested +
                 ", upcomingPaymentDate='" + upcomingPaymentDate + '\'' +
