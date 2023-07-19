@@ -8,6 +8,8 @@ import com.semicolon.grincultified.exception.AdminNotFoundException;
 import com.semicolon.grincultified.exception.AuthenticationException;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 
 public interface AdminService {
     ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException;
@@ -17,4 +19,9 @@ public interface AdminService {
     String validateDuplicateExistence(String emailAddress) throws AdminAlreadyExistException;
 
     void deleteAll();
+
+    Long count();
+
+    ResponseEntity<List<AdminResponse>> findAll();
+
 }

@@ -2,7 +2,6 @@ package com.semicolon.grincultified.services.investorService;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
-import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
@@ -23,4 +22,6 @@ public interface InvestorService {
     ResponseEntity<List<InvestorResponse>> getAllInvestors();
 
     void deleteAll();
+
+    Long count();
 }

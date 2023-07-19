@@ -7,10 +7,9 @@ import com.semicolon.grincultified.exception.AuthenticationException;
 import com.semicolon.grincultified.services.adminService.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -21,5 +20,10 @@ public class AdminController {
     @PostMapping("/registration")
     public ResponseEntity<AdminResponse> register(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
         return adminService.register(adminRegistrationRequest);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<AdminResponse>> findAll() {
+        return adminService.findAll();
     }
 }

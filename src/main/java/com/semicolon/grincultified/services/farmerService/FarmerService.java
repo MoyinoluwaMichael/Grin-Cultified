@@ -12,4 +12,6 @@ public interface FarmerService {
     List<Farmer> getAllFarmers();
 
     void deleteAll();
+
+    Long count();
 }

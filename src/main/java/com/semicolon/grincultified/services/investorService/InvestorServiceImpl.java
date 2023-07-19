@@ -112,4 +112,9 @@ public class InvestorServiceImpl implements InvestorService {
         investorRepo.deleteAll();
     }
 
+    @Override
+    public Long count() {
+        return investorRepo.count();
+    }
+
 }

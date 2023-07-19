@@ -4,7 +4,6 @@ import com.semicolon.grincultified.data.models.Investment;
 import com.semicolon.grincultified.data.models.InvestmentStatus;
 import com.semicolon.grincultified.data.repositories.InvestmentRepo;
 import com.semicolon.grincultified.dtos.requests.InvestmentRegistrationRequest;
-import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.InvestmentResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
@@ -16,13 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import static com.semicolon.grincultified.data.models.InvestmentStatus.MATURE;
 import static com.semicolon.grincultified.data.models.InvestmentStatus.ONGOING;
-import static com.semicolon.grincultified.utilities.AppUtils.NO_INVESTMENTS_YET;
 
 @Service
 @AllArgsConstructor
@@ -56,7 +54,8 @@ public class InvestmentServiceImpl implements InvestmentService {
     public ResponseEntity<List<InvestmentResponse>> findAllOngoingInvestmentsByEmail(String email) {
         InvestorResponse investorResponse = investorService.findByEmail(email);
         List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusOrStatus(investorResponse.getId(), ONGOING, MATURE);
-        List<InvestmentResponse> investmentResponses = investments.stream().map(i->modelMapper.map(i, InvestmentResponse.class)).toList();
+        List<InvestmentResponse> investmentResponses = new ArrayList<>(investments.stream().map(i -> modelMapper.map(i, InvestmentResponse.class)).toList());
+        investmentResponses.sort(Comparator.comparing(InvestmentResponse::getCreatedAt));
         return ResponseEntity.ok().body(investmentResponses);
     }
 
@@ -65,29 +64,27 @@ public class InvestmentServiceImpl implements InvestmentService {
         investmentRepo.deleteAll();
     }
 
+    @Override
+    public ResponseEntity<List<InvestmentResponse>> getAllOngoingProjectInvestments() {
+
+        return null;
+    }
 
     @Override
-    public ResponseEntity<DashboardStatistic> getDashboardStatistics(String investorEmail) {
-        InvestorResponse investorResponse = investorService.findByEmail(investorEmail);
-        List<Investment> investments = investmentRepo.findAllByInvestorIdAndStatusOrStatus(investorResponse.getId(), ONGOING, MATURE);
-        int totalNumberOfInvestments = investments.size();
-        BigDecimal totalAmountInvested = getTotalAmountInvested(investments);
-        String upcomingPaymentDate = getUpcomingPaymentDate(investments);
-        DashboardStatistic statistic = new DashboardStatistic(totalNumberOfInvestments, totalAmountInvested, upcomingPaymentDate);
-        return ResponseEntity.ok().body(statistic);
+    public List<Investment> findAllByInvestorIdAndStatusOrStatus(Long id, InvestmentStatus status, InvestmentStatus status2) {
+        return investmentRepo.findAllByInvestorIdAndStatusOrStatus(id, status, status2);
     }
 
-    private String getUpcomingPaymentDate(List<Investment> investments) {
-        if (investments.size()!= 0){
-            return investments.get(0).getRedemptionDate().toString().split("T")[0];
-        }
-        return NO_INVESTMENTS_YET;
+    @Override
+    public Long countAllByFarmProjectId(Long farmProjectId) {
+        return investmentRepo.countAllByFarmProjectId(farmProjectId);
     }
 
-    private BigDecimal getTotalAmountInvested(List<Investment> investments) {
-        BigDecimal amount = new BigDecimal(BigInteger.ZERO);
-        for (var investment : investments) {
-            amount = amount.add(investment.getAmount());
+    @Override
+    public BigDecimal calculateAllInvestmentsAmountByFarmProjectId(Long farmProjectId) {
+        BigDecimal amount = BigDecimal.ZERO;
+        for (var each : investmentRepo.findAllByFarmProjectId(farmProjectId)) {
+            amount = amount.add(each.getAmount());
         }
         return amount;
     }

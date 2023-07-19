@@ -2,7 +2,6 @@ package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
-import com.semicolon.grincultified.dtos.responses.DashboardStatistic;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
@@ -20,11 +19,6 @@ import java.util.List;
 @RequestMapping("/semicolon/cultify/v1/api/investor")
 public class InvestorController {
     private final InvestorService investorService;
-
-    @GetMapping("/test")
-    public String test() {
-        return "Hello world";
-    }
 
     @PostMapping("/registration")
     public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
