@@ -10,13 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.sql.results.spi.LoadContexts;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.Setter;
 
 
 import java.math.BigDecimal;
@@ -34,9 +31,13 @@ public class FarmProject {
     private Long id;
     private String farmProduceSummary;
     private String description;
+
     private Long numberOfInvestors;
     private BigDecimal pricePerUnit;
     private String location;
+
+    private int numberOfUnitInvestedSoFar;
+
     @Enumerated(EnumType.STRING)
     private FarmProjectStatus status;
     private String picture;

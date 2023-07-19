@@ -1,5 +1,6 @@
 package com.semicolon.grincultified.configurations;
 
+import com.semicolon.grincultified.utilities.CultifyMapper;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +54,11 @@ public class BeanConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CultifyMapper cultifyMapper(){
+        return new CultifyMapper();
     }
 
 }

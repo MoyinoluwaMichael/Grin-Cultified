@@ -2,9 +2,7 @@ package com.semicolon.grincultified;
 
 import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.InvestmentType;
-import com.semicolon.grincultified.data.repositories.AdminRepository;
-import com.semicolon.grincultified.data.repositories.OtpRepository;
-import com.semicolon.grincultified.data.repositories.UserRepository;
+import com.semicolon.grincultified.data.repositories.*;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
@@ -16,12 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class GrinCultifiedApplicationTests {
+	@Autowired
+	private FarmProjectRepository farmProjectRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -40,20 +42,27 @@ class GrinCultifiedApplicationTests {
 	private FarmProject farmProjectResponse;
 	@Autowired
 	private FarmProjectService farmProjectService;
+	@Autowired
+	private InvestmentRepo investmentRepo;
 
 	@Test
 	void contextLoads() {
-		adminRepository.deleteAll();
-		investorService.deleteAll();
-		userRepository.deleteAll();
-		temporaryUserService.deleteAll();
-		otpRepository.deleteAll();
+		investmentRepo.deleteAll();
+//		adminRepository.deleteAll();
+//		investorService.deleteAll();
+//		userRepository.deleteAll();
+//		temporaryUserService.deleteAll();
+//		otpRepository.deleteAll();
 	}
 
 	@Test
 	void addUser(){
-		userRepository.deleteById(302L);
-//		userRepository.deleteById(202L);
+		BigDecimal amount = BigDecimal.ZERO;
+		for (var each : farmProjectRepository.findAll()) {
+			each.getInvestmentPlan().setAmountPerUnit(new BigDecimal(5000).add(amount));
+			farmProjectRepository.save(each);
+			amount = amount.add(new BigDecimal(500));
+		}
 	}
 
 	@Test
@@ -63,8 +72,8 @@ class GrinCultifiedApplicationTests {
 		farmProjectCreationRequest.setDescription("Expanding Vegetables Production in Wasinmi LGA of Nigeria");
 		farmProjectCreationRequest.setPayoutType("Easy Cash");
 		farmProjectCreationRequest.setRoi(20);
-		farmProjectCreationRequest.setStartDate(LocalDateTime.of(2023, 9, 27, 0, 0));
-		farmProjectCreationRequest.setMaturityDate(LocalDateTime.of(2024, 10, 25, 0,0));
+		farmProjectCreationRequest.setStartDate(LocalDate.of(2023, 9, 27));
+		farmProjectCreationRequest.setMaturityDate(LocalDate.of(2024, 10, 25));
 		farmProjectCreationRequest.setInvestmentType(InvestmentType.FIXED_INCOME);
 		farmProjectCreationRequest.setLocation("Wasinmi");
 
@@ -75,6 +84,12 @@ class GrinCultifiedApplicationTests {
 	@Test void hashPassword(){
 		System.out.println(passwordEncoder.encode("Renike@123"));
 		System.out.println(passwordEncoder.matches("Renike@123", "$2a$10$UoQpD4QCjzxnOkAR4xmU5.O5qnLeqojFFTa9KgOAe4WHM74fI5bf."));
+	}
+
+	@Test void bigDecimalTest(){
+		BigDecimal amount = BigDecimal.valueOf(10000);
+		int noOfUnits = Integer.parseInt(amount.divide(BigDecimal.valueOf(5000)).toPlainString());
+		System.out.println(noOfUnits);
 	}
 
 }

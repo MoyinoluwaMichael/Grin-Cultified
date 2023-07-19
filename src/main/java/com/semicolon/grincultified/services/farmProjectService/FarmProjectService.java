@@ -4,6 +4,7 @@ import com.semicolon.grincultified.data.models.FarmProject;
 import com.semicolon.grincultified.data.models.FarmProjectStatus;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface FarmProjectService {
@@ -15,4 +16,5 @@ public interface FarmProjectService {
 
     List<FarmProject> getAllFarmProjectsByStatus(FarmProjectStatus status);
 
+    void updateProjectAvailability(Long farmProjectId, BigDecimal amount);
 }

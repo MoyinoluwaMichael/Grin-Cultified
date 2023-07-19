@@ -52,6 +52,8 @@ public class SecurityConfig {
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
                         .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_INVITATION_ENDPOINT)
+                        .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_ENDPOINTS)
                         .hasAnyRole(ORDINARY_ADMIN.name(), SUPER_ADMIN.name()))
                 .authorizeHttpRequests(c->c.anyRequest().authenticated())

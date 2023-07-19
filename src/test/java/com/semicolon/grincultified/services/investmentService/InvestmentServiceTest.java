@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,8 +64,8 @@ public class InvestmentServiceTest {
         investmentRegistrationRequest.setFarmProjectId(1L);
         investmentRegistrationRequest.setInvestorId(investorResponse1.getId());
         investmentRegistrationRequest.setReturnType(InvestmentReturnType.MONEY);
-        investmentRegistrationRequest.setStartingDate(LocalDateTime.now());
-        investmentRegistrationRequest.setRedemptionDate(LocalDateTime.now().plusMonths(9L));
+        investmentRegistrationRequest.setStartingDate(LocalDate.from(LocalDateTime.now()));
+        investmentRegistrationRequest.setRedemptionDate(LocalDate.from(LocalDateTime.now().plusMonths(9L)));
         investmentResponse = investmentService.initiateInvestment(investmentRegistrationRequest);
     }
 
