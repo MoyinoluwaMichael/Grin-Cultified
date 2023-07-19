@@ -1,0 +1,32 @@
+# render.yaml
+
+# Stage 1: Build the application using Maven
+- type: dockerfile
+  name: build
+  source: ./  # Assuming your Dockerfile is in the root directory of your project
+  dockerfile: |-
+    FROM maven:3.8.5-openjdk-17 AS build
+    COPY . .
+    RUN mvn clean package -DskipTests
+
+# Stage 2: Create a smaller image with the application artifact
+- type: dockerfile
+  name: app
+  dockerfile: |-
+    FROM openjdk:17.0.1-jdk-slim
+    COPY --from=build target/Cultify-0.0.1-SNAPSHOT.jar Cultify.jar
+    EXPOSE 8080
+    ENTRYPOINT ["java", "-jar", "Cultify.jar"]
+
+# Services section to specify the build and run steps
+services:
+  - name: my-docker-image
+    build:
+      name: build
+      dockerfile: build
+    env:
+    # Add environment variables if needed
+    ports:
+      - port: 8080
+        protocol: HTTP
+    start_cmd: java -jar Cultify.jar
