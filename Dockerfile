@@ -5,6 +5,6 @@ RUN mvn clean package -DskipTests
 
 # Stage 2: Create a smaller image with the application artifact
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /Cultify-0.0.1-SNAPSHOT.jar Cultify.jar
+COPY target/*.jar Cultify.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "Cultify.jar"]
