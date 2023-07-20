@@ -4,16 +4,15 @@ import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
-import com.semicolon.grincultified.exception.DuplicateInvestorException;
-import com.semicolon.grincultified.exception.InvalidOtpException;
-import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
+import com.semicolon.grincultified.exception.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InvestorService {
-    ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException;
-    ResponseEntity<InvestorResponse> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException;
+    ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, AdminAlreadyExistException;
+    ResponseEntity<Map<String, Object>> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException;
 
     InvestorResponse findByEmail(String email);
 
@@ -24,4 +23,6 @@ public interface InvestorService {
     void deleteAll();
 
     Long count();
+
+    String validateDuplicateExistence(String emailAddress) throws InvestorAlreadyExistException;
 }

@@ -40,6 +40,7 @@ public class StatisticsServiceImpl implements StatisticsService{
     public ResponseEntity<InvestorDashboardStatistic> getInvestorDashboardStatistics(String investorEmail) {
         InvestorResponse investorResponse = investorService.findByEmail(investorEmail);
         List<Investment> investments = investmentService.findAllByInvestorIdAndStatusOrStatus(investorResponse.getId(), ONGOING, MATURE);
+        investments.sort(Comparator.comparing(Investment::getRedemptionDate));
         int totalNumberOfInvestments = investments.size();
         BigDecimal totalAmountInvested = getTotalAmountInvested(investments);
         String upcomingPaymentDate = getUpcomingPaymentDate(investments);

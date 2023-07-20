@@ -9,19 +9,19 @@ import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.dtos.responses.UserResponse;
 import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
-import com.semicolon.grincultified.exception.AdminNotFoundException;
 import com.semicolon.grincultified.exception.AuthenticationException;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
+import com.semicolon.grincultified.utilities.JwtUtility;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
@@ -31,11 +31,14 @@ import static com.semicolon.grincultified.utilities.AppUtils.*;
 public class AdminServiceImplementation implements AdminService {
     AdminRepository adminRepository;
     private final ModelMapper modelMapper;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtility jwtUtil;
     private final AdminInvitationService adminInvitationService;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public ResponseEntity<AdminResponse> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
+    public ResponseEntity<Map<String, Object>> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
         String email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        String password = adminRegistrationRequest.getPassword();
         adminRegistrationRequest.setEmailAddress(email);
         adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));
         User user = modelMapper.map(adminRegistrationRequest, User.class);
@@ -47,7 +50,13 @@ public class AdminServiceImplementation implements AdminService {
         admin.getUser().getRoles().add(ORDINARY_ADMIN);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
-        return new ResponseEntity(map(savedAdmin), HttpStatus.CREATED);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
+        Authentication authResult = authenticationManager.authenticate(authentication);
+        String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put(ACCESS_TOKEN_VALUE, accessToken);
+        responseData.put(USER, map(savedAdmin));
+        return ResponseEntity.ok().body(responseData);
     }
 
     private AdminResponse map(Admin savedAdmin) {
