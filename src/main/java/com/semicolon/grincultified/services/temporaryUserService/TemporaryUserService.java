@@ -9,6 +9,8 @@ public interface TemporaryUserService {
     void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest);
     void validateDuplicateTemporaryInvestor(String emailAddress);
 
+
+
     void deleteAll();
 
 }

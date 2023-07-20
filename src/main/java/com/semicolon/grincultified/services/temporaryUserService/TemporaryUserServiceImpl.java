@@ -36,6 +36,14 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
         var tempInvestor = temporaryInvestorRepository.findByEmailAddress(emailAddress);
         tempInvestor.ifPresent(this::deleteTemporaryInvestor);
     }
+
+
+//    @Scheduled(cron = "*/10 * * * *  ?")
+//    public void displayCron() {
+//        System.out.println("Sgreen... " + LocalDateTime.now());
+//
+//    }
+
     @Override
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
         temporaryInvestorRepository.delete(investorRegistrationRequest);
@@ -52,6 +60,8 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
             }
         }
     }
+
+
 
     @Override
     public void deleteAll() {
