@@ -3,6 +3,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-COPY target/*.jar Cultify.jar
+COPY --from=build /target/Cultify-0.0.1-SNAPSHOT.jar Cultify.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "Cultify.jar"]
