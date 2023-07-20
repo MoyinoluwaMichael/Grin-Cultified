@@ -72,7 +72,7 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
-        String accessToken = generateAccessToken(authResult.getAuthorities());
+        String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
         authResult.getDetails();
         Map<String, Object> responseData = new HashMap<>();
         responseData.put(ACCESS_TOKEN_VALUE, accessToken);
@@ -95,20 +95,6 @@ public class CultifyAuthenticationFilter extends UsernamePasswordAuthenticationF
         ));
     }
 
-
-    private String generateAccessToken(Collection<? extends GrantedAuthority> authorities){
-        Map<String, String> map = new HashMap<>();
-        int count = 1;
-        for (GrantedAuthority authority:authorities) {
-            map.put(CLAIM_VALUE+count, authority.getAuthority());
-            count++;
-        }
-        return JWT.create()
-                .withIssuedAt(now())
-                .withExpiresAt(now().plusSeconds(12000L))
-                .withClaim(ROLES_VALUE, map)
-                .sign(Algorithm.HMAC512(jwtUtil.getSecret().getBytes()));
-    }
 
 
 }

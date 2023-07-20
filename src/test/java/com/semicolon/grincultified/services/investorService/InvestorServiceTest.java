@@ -4,6 +4,7 @@ import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
+import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
+import static com.semicolon.grincultified.utilities.AppUtils.USER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -31,7 +33,7 @@ class InvestorServiceTest {
     private TemporaryUserService temporaryUserService;
 
     @BeforeEach
-    public void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, InvalidOtpException {
+    public void setUp() throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, InvalidOtpException, AdminAlreadyExistException {
         investorService.deleteAll();
         temporaryUserService.deleteAll();
         otpVerificationRequest = new OtpVerificationRequest();
@@ -45,7 +47,6 @@ class InvestorServiceTest {
         otp = investorRegistrationResponse.getBody().getData();
         otpVerificationRequest.setOtp(otp);
         otpVerificationRequest.setEmailAddress("jenob77428@devswp.com");
-        investorResponse = investorService.confirmRegistration(otpVerificationRequest);
     }
 
     @Test

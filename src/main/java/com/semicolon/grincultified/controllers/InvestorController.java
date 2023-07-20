@@ -4,6 +4,7 @@ import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.dtos.responses.InvestorResponse;
+import com.semicolon.grincultified.exception.AdminAlreadyExistException;
 import com.semicolon.grincultified.exception.DuplicateInvestorException;
 import com.semicolon.grincultified.exception.InvalidOtpException;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -21,12 +23,12 @@ public class InvestorController {
     private final InvestorService investorService;
 
     @PostMapping("/registration")
-    public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException {
+    public ResponseEntity<GenericResponse<String>> register(@RequestBody InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, TemporaryInvestorDoesNotExistException, AdminAlreadyExistException {
         return investorService.initiateRegistration(investorRegistrationRequest);
     }
 
     @PostMapping("/confirmRegistration")
-    public ResponseEntity<InvestorResponse> confirmRegistration(@RequestBody OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException {
+    public ResponseEntity<Map<String, Object>> confirmRegistration(@RequestBody OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException {
         return investorService.confirmRegistration(otpVerificationRequest);
     }
 
