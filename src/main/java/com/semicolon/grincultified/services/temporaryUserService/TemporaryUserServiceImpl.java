@@ -4,7 +4,13 @@ import com.semicolon.grincultified.data.repositories.TemporaryInvestorRepository
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
 import com.semicolon.grincultified.exception.TemporaryInvestorDoesNotExistException;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
@@ -15,6 +21,7 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
 
     @Override
     public void addUserTemporarily(InvestorRegistrationRequest investorRegistrationRequest) {
+        investorRegistrationRequest.setRegistrationDate(LocalDateTime.now());
         temporaryInvestorRepository.save(investorRegistrationRequest);
     }
 
@@ -32,6 +39,18 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
     @Override
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
         temporaryInvestorRepository.delete(investorRegistrationRequest);
+    }
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteExpiredTemporaryInvestor() {
+        List<InvestorRegistrationRequest> temporaryInvestors = temporaryInvestorRepository.findAll();
+        LocalDate twoDaysAgo = LocalDate.now().minusDays(2);
+
+        for (InvestorRegistrationRequest investors : temporaryInvestors) {
+            LocalDate registrationDate = investors.getRegistrationDate().toLocalDate();
+            if (registrationDate.isBefore(twoDaysAgo)) {
+                deleteTemporaryInvestor(investors);
+            }
+        }
     }
 
     @Override

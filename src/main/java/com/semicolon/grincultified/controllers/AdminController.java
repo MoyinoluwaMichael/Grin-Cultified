@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/semicolon/cultify/v1/api/admin")
+
 public class AdminController {
     private final AdminService adminService;
 

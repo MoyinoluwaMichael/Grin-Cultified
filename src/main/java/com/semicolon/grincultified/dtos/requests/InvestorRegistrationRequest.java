@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 @Setter
 @Getter
 @Entity
@@ -17,4 +22,8 @@ public class InvestorRegistrationRequest {
     private String password;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Otp otp;
+    private LocalDateTime registrationDate;
+
+
+
 }
