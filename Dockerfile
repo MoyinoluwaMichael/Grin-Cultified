@@ -5,3 +5,4 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /target/grinCultified-0.0.1-SNAPSHOT.jar grinCultified.jar
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "grinCultify.jar"]
