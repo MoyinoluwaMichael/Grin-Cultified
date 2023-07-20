@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface AdminInvitationRepository extends JpaRepository<AdminInvitation, String> {
 
     Optional<AdminInvitation> findByEmail(String email);
+    void deleteAdminInvitationByEmail(String email);
 }

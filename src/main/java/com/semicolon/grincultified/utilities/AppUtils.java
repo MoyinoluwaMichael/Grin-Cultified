@@ -7,6 +7,7 @@ public class AppUtils {
     public static final String CHECK_YOUR_MAIL_FOR_YOUR_OTP = "Check your mail for your otp!";
     public static final String CULTIFY_ADMIN_INVITATION = "CULTIFY-ADMIN INVITATION";
     public static final String INVITATION_SENT_SUCCESSFULLY = "Invitation sent successfully";
+    public static final String INVALID_EMAIL = "Invalid email";
     public static final String ADMIN_INVITATION_MAIL_TEMPLATE = """
             Dear %s,
             
@@ -34,8 +35,10 @@ public class AppUtils {
     public static final String NO_INVITATION_SENT_YET = "%, No Registration Invitation Email Sent Yet";
     public static final String INVITATION_NOT_FOUND = "Invitation not found";
     public static final String ADMIN_NOT_FOUND = "Admin not found";
-    public static final String ADMIN_ALREADY_EXISTS = "Admin already exists";
+    public static final String ADMIN_ALREADY_EXISTS = "User with this email already exists";
+    public static final String INVESTOR_ALREADY_EXISTS = "User with this email already exists";
     public static final String ADMIN_DOES_NOT_EXIST = "Admin does not exists";
+    public static final String INVESTOR_DOES_NOT_EXIST = "Investor does not exists";
     public static final String INVITATION_REGISTERED = "Invitation registered";
     public static final String INVITATION_ALREADY_REGISTERED = "Invitation already registered";
     public static final String YOU_HAVE_ENTERED_AN_INVALID_OTP = "You have entered an invalid otp!";

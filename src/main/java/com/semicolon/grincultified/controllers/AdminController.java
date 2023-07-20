@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/registration")
-    public ResponseEntity<AdminResponse> register(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
+    public ResponseEntity<Map<String, Object>> register(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
         return adminService.register(adminRegistrationRequest);
     }
 

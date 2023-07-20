@@ -102,4 +102,11 @@ class GrinCultifiedApplicationTests {
 		userRepository.save(user);
 	}
 
+	@Test void deleteUser(){
+		userRepository.deleteById(654L);
+		userRepository.deleteById(802L);
+//		investorService.deleteAll();
+//		adminRepository.deleteById(302L);
+	}
+
 }
