@@ -5,9 +5,13 @@ import com.semicolon.grincultified.data.models.InvestmentType;
 import com.semicolon.grincultified.data.models.Role;
 import com.semicolon.grincultified.data.models.User;
 import com.semicolon.grincultified.data.repositories.*;
+import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
+import com.semicolon.grincultified.exception.AdminInvitationNotFoundException;
+import com.semicolon.grincultified.exception.AuthenticationException;
 import com.semicolon.grincultified.services.farmProjectService.FarmProjectService;
 import com.semicolon.grincultified.services.investorService.InvestorService;
+import com.semicolon.grincultified.services.superAdminService.SuperAdminService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import com.semicolon.grincultified.services.userService.UserService;
 import com.semicolon.grincultified.utilities.AppUtils;
@@ -42,6 +46,8 @@ class GrinCultifiedApplicationTests {
 	private OtpRepository otpRepository;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SuperAdminService superAdminService;
 	private FarmProject farmProjectResponse;
 	@Autowired
 	private FarmProjectService farmProjectService;
@@ -95,11 +101,13 @@ class GrinCultifiedApplicationTests {
 		System.out.println(noOfUnits);
 	}
 
-	@Test void createSuperAdmin(){
-		User user = userRepository.findByEmailAddress("moyinoluwa").get();
-		user.setRoles(new HashSet<>());
-		user.getRoles().add(Role.SUPER_ADMIN);
-		userRepository.save(user);
+	@Test void createSuperAdmin() throws AuthenticationException, AdminInvitationNotFoundException {
+		AdminRegistrationRequest request = new AdminRegistrationRequest();
+		request.setEmailAddress("nwachukwusamuel123@gmail.com");
+		request.setPassword("Mr-S-Square");
+		request.setFirstName("Samuel");
+		request.setLastName("Kulitech");
+		superAdminService.registerSuperAdminAccount(request);
 	}
 
 	@Test void deleteUser(){
