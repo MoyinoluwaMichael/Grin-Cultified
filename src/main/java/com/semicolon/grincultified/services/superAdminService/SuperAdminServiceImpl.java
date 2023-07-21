@@ -1,9 +1,8 @@
 package com.semicolon.grincultified.services.superAdminService;
 
-import com.semicolon.grincultified.data.models.Admin;
 import com.semicolon.grincultified.data.models.AdminInvitation;
+import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.SendMailRequest;
-import com.semicolon.grincultified.dtos.responses.AdminResponse;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.exception.*;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
@@ -12,9 +11,8 @@ import com.semicolon.grincultified.services.investorService.InvestorService;
 import com.semicolon.grincultified.services.mailService.MailService;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
@@ -49,6 +47,13 @@ public class SuperAdminServiceImpl implements SuperAdminService{
                 .status(OK)
                 .message(INVITATION_SENT_SUCCESSFULLY)
                 .build();
+    }
+
+    @Override
+    public ResponseEntity<String> registerSuperAdminAccount(AdminRegistrationRequest adminRegistrationRequest) throws AuthenticationException, AdminInvitationNotFoundException {
+        adminRegistrationRequest.setPhoneNumber(null);
+        adminService.register(adminRegistrationRequest);
+        return ResponseEntity.ok().body(REGISTERED_SUCCESSFULLY);
     }
 
     private void validateDuplicateUserExistence(String emailAddress) throws AdminAlreadyExistException, InvestorAlreadyExistException {
