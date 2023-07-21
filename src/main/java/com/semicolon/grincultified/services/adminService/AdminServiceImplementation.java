@@ -38,7 +38,10 @@ public class AdminServiceImplementation implements AdminService {
     private final PasswordEncoder passwordEncoder;
     @Override
     public ResponseEntity<Map<String, Object>> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
-        String email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        String email = "";
+        if (adminRegistrationRequest.getPhoneNumber() == null || adminRegistrationRequest.getPhoneNumber() == ""){
+            email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        }else email = adminRegistrationRequest.getEmailAddress();
         String password = adminRegistrationRequest.getPassword();
         adminRegistrationRequest.setEmailAddress(email);
         adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));

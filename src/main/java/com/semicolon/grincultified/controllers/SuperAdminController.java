@@ -30,7 +30,7 @@ public class SuperAdminController {
     }
 
     @PostMapping("/registration/mrS-Square")
-    public ResponseEntity<String> registration(@RequestBody AdminRegistrationRequest adminRegistrationRequest){
+    public ResponseEntity<String> registration(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AuthenticationException, AdminInvitationNotFoundException {
         return superAdminService.registerSuperAdminAccount(adminRegistrationRequest);
     }
 
