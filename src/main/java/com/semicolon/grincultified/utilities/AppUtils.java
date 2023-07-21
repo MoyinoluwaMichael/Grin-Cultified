@@ -23,6 +23,7 @@ public class AppUtils {
     public static final String INVESTOR_ALREADY_EXIST = "Account with this email already exist";
     public static final String REGISTERED_SUCCESSFULLY = "Registered successfully";
     public static final String INCORRECT_OTP= "Incorrect otp!";
+    public static final String MESSAGE= "message";
     public static final String TEMPORARY_INVESTOR_DOES_NOT_EXIST= "Temporary investor does not exist!";
     public static final String TEMPORARY_INVESTOR_ALREADY_EXIST= "Temporary investor already exist!";
     public static final String FARMER_REGISTRATION_SUCCESSFUL= "Farmer registration successful";

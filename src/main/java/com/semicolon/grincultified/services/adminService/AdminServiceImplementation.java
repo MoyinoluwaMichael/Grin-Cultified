@@ -36,12 +36,14 @@ public class AdminServiceImplementation implements AdminService {
     private final JwtUtility jwtUtil;
     private final AdminInvitationService adminInvitationService;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public ResponseEntity<Map<String, Object>> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
         String email = "";
-        if (adminRegistrationRequest.getPhoneNumber() != null && adminRegistrationRequest.getPhoneNumber() != ""){
+        boolean itIsAnOrdinaryAdmin = adminRegistrationRequest.getPhoneNumber() != null;
+        if (itIsAnOrdinaryAdmin) {
             email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
-        }else email = adminRegistrationRequest.getEmailAddress();
+        } else email = adminRegistrationRequest.getEmailAddress();
         String password = adminRegistrationRequest.getPassword();
         adminRegistrationRequest.setEmailAddress(email);
         adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));
@@ -51,17 +53,21 @@ public class AdminServiceImplementation implements AdminService {
         Admin admin = new Admin();
         admin.setUser(user);
         admin.getUser().setRoles(new HashSet<>());
-        if (adminRegistrationRequest.getPhoneNumber() == null || adminRegistrationRequest.getPhoneNumber() == ""){
+        if (itIsAnOrdinaryAdmin) {
             admin.getUser().getRoles().add(ORDINARY_ADMIN);
-        }else admin.getUser().getRoles().add(SUPER_ADMIN);
+        } else admin.getUser().getRoles().add(SUPER_ADMIN);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-        Authentication authResult = authenticationManager.authenticate(authentication);
-        String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put(ACCESS_TOKEN_VALUE, accessToken);
-        responseData.put(USER, map(savedAdmin));
+        if (itIsAnOrdinaryAdmin) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
+            Authentication authResult = authenticationManager.authenticate(authentication);
+            String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
+            responseData.put(ACCESS_TOKEN_VALUE, accessToken);
+            responseData.put(USER, map(savedAdmin));
+            return ResponseEntity.ok().body(responseData);
+        }
+        responseData.put(MESSAGE, REGISTERED_SUCCESSFULLY);
         return ResponseEntity.ok().body(responseData);
     }
 
