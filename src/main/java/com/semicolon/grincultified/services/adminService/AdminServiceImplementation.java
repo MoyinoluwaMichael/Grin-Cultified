@@ -39,7 +39,7 @@ public class AdminServiceImplementation implements AdminService {
     @Override
     public ResponseEntity<Map<String, Object>> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
         String email = "";
-        if (adminRegistrationRequest.getPhoneNumber() != null || adminRegistrationRequest.getPhoneNumber() != ""){
+        if (adminRegistrationRequest.getPhoneNumber() != null && adminRegistrationRequest.getPhoneNumber() != ""){
             email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
         }else email = adminRegistrationRequest.getEmailAddress();
         String password = adminRegistrationRequest.getPassword();

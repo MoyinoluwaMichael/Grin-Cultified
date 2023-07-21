@@ -51,6 +51,7 @@ public class CultifyAuthorizationFilter extends OncePerRequestFilter {
         ObjectMapper mapper = new ObjectMapper();
         try {
             authorize(request);
+            System.out.println("Authorized");
             filterChain.doFilter(request, response);
           } catch (Exception exception) {
             log.info("Authorization Exception {}", exception.getMessage());
@@ -64,6 +65,7 @@ public class CultifyAuthorizationFilter extends OncePerRequestFilter {
 
     private void authorize(HttpServletRequest request) throws AuthenticationException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
+        System.out.println(authorizationHeader);
         boolean isValidAuthorizationHeader = authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX);
         if (isValidAuthorizationHeader) {
             String token = parseTokenFrom(authorizationHeader);
