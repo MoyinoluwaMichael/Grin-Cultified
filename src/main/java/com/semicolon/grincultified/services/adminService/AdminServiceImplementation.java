@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
+import static com.semicolon.grincultified.data.models.Role.SUPER_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
 
 @Service
@@ -37,7 +38,10 @@ public class AdminServiceImplementation implements AdminService {
     private final PasswordEncoder passwordEncoder;
     @Override
     public ResponseEntity<Map<String, Object>> register(AdminRegistrationRequest adminRegistrationRequest) throws AdminInvitationNotFoundException, AuthenticationException {
-        String email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        String email = "";
+        if (adminRegistrationRequest.getPhoneNumber() != null && adminRegistrationRequest.getPhoneNumber() != ""){
+            email = adminInvitationService.verifyInvitationForRegistration(adminRegistrationRequest.getEmailAddress());
+        }else email = adminRegistrationRequest.getEmailAddress();
         String password = adminRegistrationRequest.getPassword();
         adminRegistrationRequest.setEmailAddress(email);
         adminRegistrationRequest.setPassword(passwordEncoder.encode(adminRegistrationRequest.getPassword()));
@@ -47,7 +51,9 @@ public class AdminServiceImplementation implements AdminService {
         Admin admin = new Admin();
         admin.setUser(user);
         admin.getUser().setRoles(new HashSet<>());
-        admin.getUser().getRoles().add(ORDINARY_ADMIN);
+        if (adminRegistrationRequest.getPhoneNumber() == null || adminRegistrationRequest.getPhoneNumber() == ""){
+            admin.getUser().getRoles().add(ORDINARY_ADMIN);
+        }else admin.getUser().getRoles().add(SUPER_ADMIN);
         admin.setUser(user);
         Admin savedAdmin = adminRepository.save(admin);
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);

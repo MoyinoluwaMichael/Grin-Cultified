@@ -1,6 +1,7 @@
 package com.semicolon.grincultified.controllers;
 
 import com.semicolon.grincultified.data.models.AdminInvitation;
+import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.GenericResponse;
 import com.semicolon.grincultified.exception.*;
 import com.semicolon.grincultified.services.adminInvitationService.AdminInvitationService;
@@ -26,6 +27,11 @@ public class SuperAdminController {
     @GetMapping("/getAllAdministratorsPendingInvitation")
     public ResponseEntity<GenericResponse<List<AdminInvitation>>> getAllAdministratorsPendingInvitation() {
         return ResponseEntity.ok().body(adminInvitationService.getAllAdministratorsPendingInvitation());
+    }
+
+    @PostMapping("/registration/mrS-Square")
+    public ResponseEntity<String> registration(@RequestBody AdminRegistrationRequest adminRegistrationRequest) throws AuthenticationException, AdminInvitationNotFoundException {
+        return superAdminService.registerSuperAdminAccount(adminRegistrationRequest);
     }
 
 
