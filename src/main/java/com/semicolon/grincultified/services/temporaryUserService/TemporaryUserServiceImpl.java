@@ -38,11 +38,6 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
     }
 
 
-//    @Scheduled(cron = "*/10 * * * *  ?")
-//    public void displayCron() {
-//        System.out.println("Sgreen... " + LocalDateTime.now());
-//
-//    }
 
     @Override
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
@@ -57,6 +52,7 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
             LocalDate registrationDate = investors.getRegistrationDate().toLocalDate();
             if (registrationDate.isBefore(twoDaysAgo)) {
                 deleteTemporaryInvestor(investors);
+
             }
         }
     }
