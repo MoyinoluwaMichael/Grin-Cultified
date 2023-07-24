@@ -18,6 +18,7 @@ public class AppUtils {
     public static final String REGISTRATION_OTP = "REGISTRATION OTP";
     public static final String NO_INVESTMENTS_YET = "No investments yet";
     public static final String USER_DOES_NOT_EXIST = "User does not exist";
+    public static final String USER_UPDATED_SUCCESSFULLY = "User updated successfully";
     public static final String USER = "user";
     public static final String OTP_TOKEN = "Your otp is: %s";
     public static final String INVESTOR_ALREADY_EXIST = "Account with this email already exist";

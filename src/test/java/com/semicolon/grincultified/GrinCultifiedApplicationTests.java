@@ -1,9 +1,6 @@
 package com.semicolon.grincultified;
 
-import com.semicolon.grincultified.data.models.FarmProject;
-import com.semicolon.grincultified.data.models.InvestmentType;
-import com.semicolon.grincultified.data.models.Role;
-import com.semicolon.grincultified.data.models.User;
+import com.semicolon.grincultified.data.models.*;
 import com.semicolon.grincultified.data.repositories.*;
 import com.semicolon.grincultified.dtos.requests.AdminRegistrationRequest;
 import com.semicolon.grincultified.dtos.requests.FarmProjectCreationRequest;
@@ -111,10 +108,14 @@ class GrinCultifiedApplicationTests {
 	}
 
 	@Test void deleteUser(){
-		userRepository.deleteById(654L);
-		userRepository.deleteById(802L);
+//		userRepository.deleteById(654L);
+//		userRepository.deleteById(802L);
 //		investorService.deleteAll();
-//		adminRepository.deleteById(302L);
+//		adminRepository.deleteAll();
+//		Admin admin = adminRepository.findAdminByUser_EmailAddress("Sgreensneh@gmail.com").get();
+//		admin.getUser().setEmailAddress("Sgreen");
+//		adminRepository.save(admin);
+		farmProjectRepository.deleteAll();
 	}
 
 }
