@@ -43,6 +43,11 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
     public void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest){
         temporaryInvestorRepository.delete(investorRegistrationRequest);
     }
+    //    @Scheduled(cron = "*/10 * * * *  ?")
+//    public void displayCron() {
+//        System.out.println("Sgreen... " + LocalDateTime.now());
+//
+//    }
     @Scheduled(cron = "0 0 0 * * ?")
     public void deleteExpiredTemporaryInvestor() {
         List<InvestorRegistrationRequest> temporaryInvestors = temporaryInvestorRepository.findAll();
@@ -50,9 +55,12 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
 
         for (InvestorRegistrationRequest investors : temporaryInvestors) {
             LocalDate registrationDate = investors.getRegistrationDate().toLocalDate();
-            if (registrationDate.isBefore(twoDaysAgo)) {
-                deleteTemporaryInvestor(investors);
-
+            if (registrationDate != null) {
+                if (registrationDate.isBefore(twoDaysAgo)) {
+                    deleteTemporaryInvestor(investors);
+                }
+            }else {
+                System.out.println("Investor with email " + investors.getEmailAddress() + " has a null registration date.");
             }
         }
     }
