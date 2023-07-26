@@ -40,35 +40,6 @@ public class SecurityConfig {
 
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//      UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil, investorService, adminService, userService);
-//      authenticationFilter.setFilterProcessesUrl(LOGIN_ENDPOINT);
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(Customizer.withDefaults())
-//                .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(new CultifyAuthorizationFilter(jwtUtil), CultifyAuthenticationFilter.class)
-//                .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, INVESTOR_REGISTRATION_API_VALUE)
-//                        .permitAll())
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_REGISTRATION_API_VALUE)
-//                        .permitAll())
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, OTP_VERIFICATION_ENDPOINT)
-//                        .permitAll())
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
-//                        .permitAll())
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_INVITATION_ENDPOINT)
-//                        .permitAll())
-//                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_ENDPOINTS)
-//                        .hasAnyRole(ORDINARY_ADMIN.name(), SUPER_ADMIN.name()))
-//                .authorizeHttpRequests(c->c.anyRequest().authenticated())
-//                .build();
-//    }
-
-
-
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     UsernamePasswordAuthenticationFilter authenticationFilter = new CultifyAuthenticationFilter(authenticationManager, jwtUtil, investorService, adminService, userService);
