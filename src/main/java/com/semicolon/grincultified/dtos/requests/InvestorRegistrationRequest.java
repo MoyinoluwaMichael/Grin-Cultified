@@ -15,6 +15,4 @@ public class InvestorRegistrationRequest {
     private String lastName;
     private String phoneNumber;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Otp otp;
 }

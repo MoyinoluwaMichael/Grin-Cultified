@@ -3,13 +3,11 @@ package com.semicolon.grincultified.services.investorService;
 import com.semicolon.grincultified.data.models.*;
 import com.semicolon.grincultified.data.repositories.InvestorRepo;
 import com.semicolon.grincultified.dtos.requests.InvestorRegistrationRequest;
-import com.semicolon.grincultified.dtos.requests.OtpVerificationRequest;
-import com.semicolon.grincultified.dtos.requests.SendMailRequest;
+import com.semicolon.grincultified.dtos.requests.CompleteRegistrationRequest;
 import com.semicolon.grincultified.dtos.responses.*;
 import com.semicolon.grincultified.exception.*;
 import com.semicolon.grincultified.services.adminService.AdminService;
 import com.semicolon.grincultified.services.mailService.MailService;
-import com.semicolon.grincultified.services.otpService.OtpService;
 import com.semicolon.grincultified.services.temporaryUserService.TemporaryUserService;
 import com.semicolon.grincultified.utilities.JwtUtility;
 import lombok.AllArgsConstructor;
@@ -37,28 +35,50 @@ public class InvestorServiceImpl implements InvestorService {
     private final AuthenticationManager authenticationManager;
     private final TemporaryUserService temporaryUserService;
     private final MailService mailService;
-    private final OtpService otpService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtility jwtUtility;
 
 
     @Override
-    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, AdminAlreadyExistException {
+    public ResponseEntity<GenericResponse<String>> initiateRegistration(InvestorRegistrationRequest investorRegistrationRequest) throws DuplicateInvestorException, AdminAlreadyExistException, InvalidEmailException {
         Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(investorRegistrationRequest.getEmailAddress());
         if (foundInvestor.isPresent()) throw new DuplicateInvestorException(INVESTOR_ALREADY_EXIST);
-        temporaryUserService.validateDuplicateTemporaryInvestor(investorRegistrationRequest.getEmailAddress());
+        temporaryUserService.deleteExistingTemporaryUser(investorRegistrationRequest.getEmailAddress());
         adminService.validateDuplicateExistence(investorRegistrationRequest.getEmailAddress());
-        Otp otp = otpService.generateOtp();
-        investorRegistrationRequest.setOtp(otp);
+        String encryptedEmail = jwtUtility.generateEncryptedLink(investorRegistrationRequest.getEmailAddress());
+        String invitationLink = INVESTOR_REGISTRATION_PAGE_URL+encryptedEmail;
+        sendEmailVerificationMail(investorRegistrationRequest, invitationLink);
         temporaryUserService.addUserTemporarily(investorRegistrationRequest);
-        sendOtp(investorRegistrationRequest);
         GenericResponse<String> genericResponse = new GenericResponse<>();
-        genericResponse.setMessage(CHECK_YOUR_MAIL_FOR_YOUR_OTP);
+        genericResponse.setMessage(INVESTOR_INITIAL_REGISTRATION_RESPONSE);
         return ResponseEntity.ok().body(genericResponse);
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> confirmRegistration(OtpVerificationRequest otpVerificationRequest) throws TemporaryInvestorDoesNotExistException, InvalidOtpException {
-        InvestorRegistrationRequest investorRegistrationRequest = otpService.verifyOtp(otpVerificationRequest);
+    public ResponseEntity<Map<String, Object>> confirmRegistration(CompleteRegistrationRequest completeRegistrationRequest) throws TemporaryInvestorDoesNotExistException, InvestorRegistrationFailed {
+        String email;
+        try {
+            email = jwtUtility.extractEmailFrom(completeRegistrationRequest.getEmailAddress());
+        } catch (AuthenticationException e) {
+            throw new InvestorRegistrationFailed(e.getMessage());
+        }
+        Optional<Investor> foundInvestor = investorRepo.findByUser_EmailAddressContainingIgnoreCase(email);
+        Investor savedInvestor;
+        InvestorRegistrationRequest investorRegistrationRequest = temporaryUserService.findByEmail(email);
+        String password = investorRegistrationRequest.getPassword();
+        if (foundInvestor.isEmpty()) savedInvestor = registerInvestor(investorRegistrationRequest);
+        else savedInvestor = foundInvestor.get();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
+        Authentication authResult = authenticationManager.authenticate(authentication);
+        String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put(ACCESS_TOKEN_VALUE, accessToken);
+        responseData.put(USER, map(savedInvestor));
+        return ResponseEntity.ok().body(responseData);
+    }
+
+    private Investor registerInvestor(InvestorRegistrationRequest investorRegistrationRequest) throws TemporaryInvestorDoesNotExistException {
+        temporaryUserService.deleteTemporaryInvestor(investorRegistrationRequest);
         User user = modelMapper.map(investorRegistrationRequest, User.class);
         Address address = new Address();
         user.setAddress(address);
@@ -68,16 +88,7 @@ public class InvestorServiceImpl implements InvestorService {
         Investor investor = new Investor();
         investor.setUser(user);
         Investor savedInvestor = investorRepo.save(investor);
-        temporaryUserService.deleteTemporaryInvestor(investorRegistrationRequest);
-        String email = investorRegistrationRequest.getEmailAddress();
-        String password = investorRegistrationRequest.getPassword();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-        Authentication authResult = authenticationManager.authenticate(authentication);
-        String accessToken = jwtUtil.generateAccessToken(authResult.getAuthorities());
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put(ACCESS_TOKEN_VALUE, accessToken);
-        responseData.put(USER, map(savedInvestor));
-        return ResponseEntity.ok().body(responseData);
+        return savedInvestor;
     }
 
     private InvestorResponse map(Investor investor) {
@@ -98,21 +109,14 @@ public class InvestorServiceImpl implements InvestorService {
         return modelMapper.map(investorRepo.findById(investorId), InvestorResponse.class);
     }
 
-    private String sendOtp(InvestorRegistrationRequest investorRegistrationRequest) {
-        SendMailRequest sendMailRequest = new SendMailRequest();
-        sendMailRequest.setFrom(SYSTEM_MAIL);
-        sendMailRequest.setTo(investorRegistrationRequest.getEmailAddress());
-        sendMailRequest.setSubject(REGISTRATION_OTP);
-        String text = String.format(OTP_TOKEN, investorRegistrationRequest.getOtp().getOtpToken());
-        sendMailRequest.setText(text);
-        mailService.sendMail(sendMailRequest);
-        return sendMailRequest.getText();
+    private void sendEmailVerificationMail(InvestorRegistrationRequest investorRegistrationRequest, String invitationLink) throws InvalidEmailException {
+        String response = mailService.sendEmailVerificationMail(investorRegistrationRequest, invitationLink);
     }
 
     @Override
     public ResponseEntity<List<InvestorResponse>> getAllInvestors() {
         List<Investor> investors = investorRepo.findAll();
-        List<InvestorResponse> investorResponses =  investors.stream().map(this::map).collect(Collectors.toList());
+        List<InvestorResponse> investorResponses = investors.stream().map(this::map).collect(Collectors.toList());
         return ResponseEntity.ok().body(investorResponses);
     }
 
