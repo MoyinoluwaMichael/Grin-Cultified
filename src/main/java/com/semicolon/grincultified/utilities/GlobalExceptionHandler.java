@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(InvestorRegistrationFailed e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler
     public ResponseEntity<String> handleExceptions(AdminAlreadyExistException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }

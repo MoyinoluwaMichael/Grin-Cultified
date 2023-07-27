@@ -4,14 +4,23 @@ import java.util.List;
 
 public class AppUtils {
     public static final String SYSTEM_MAIL = "aliyahrenike@gmail.com";
-    public static final String CHECK_YOUR_MAIL_FOR_YOUR_OTP = "Check your mail for your otp!";
+    public static final String INVESTOR_INITIAL_REGISTRATION_RESPONSE = "A verification link has been sent to your email. Please check to complete your registration.";
     public static final String CULTIFY_ADMIN_INVITATION = "CULTIFY-ADMIN INVITATION";
+    public static final String EMAIL_VERIFICATION = "EMAIL VERIFICATION";
+    public static final String MAIL_SENT_SUCCESSFULLY = "MAIL SENT SUCCESSFULLY";
     public static final String INVITATION_SENT_SUCCESSFULLY = "Invitation sent successfully";
     public static final String INVALID_EMAIL = "Invalid email";
     public static final String ADMIN_INVITATION_MAIL_TEMPLATE = """
             Dear %s,
             
             You have been invited to be an admin on Cultify platform. Kindly click below link to get started.
+            
+            %s
+            """;
+    public static final String INVESTOR_EMAIL_VERIFICATION_MAIL_TEMPLATE = """
+            Dear %s,
+            
+            Kindly click below link to verify your email and complete your registration
             
             %s
             """;
@@ -33,7 +42,8 @@ public class AppUtils {
     public static final String EMAIL_VALUE = "email";
     public static final String CULTIFY = "cultify";
     public static Long SIXTY = 60L;
-    public static String ADMIN_REGISTRATION_PAGE_URL = "http://localhost:3000/admin/registration/";
+    public static String ADMIN_REGISTRATION_PAGE_URL = "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app/admin/registration/";
+    public static String INVESTOR_REGISTRATION_PAGE_URL = "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app/investor/emailVerification/";
     public static final String NO_INVITATION_SENT_YET = "%, No Registration Invitation Email Sent Yet";
     public static final String INVITATION_NOT_FOUND = "Invitation not found";
     public static final String ADMIN_NOT_FOUND = "Admin not found";
@@ -57,13 +67,13 @@ public class AppUtils {
     public static final String USER_WITH_EMAIL_NOT_FOUND = "User with email %s not found";
     public static final String LOGIN_ENDPOINT = "/semicolon/cultify/v1/api/login";
     public static final String INVESTMENT_CREATION_ENDPOINT = "/semicolon/cultify/v1/api/investment/initiateInvestment";
-    public static final String OTP_VERIFICATION_ENDPOINT = "/semicolon/cultify/v1/api/investor/confirmRegistration";
-    public static final String INVESTOR_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/investor/registration";
+    public static final String COMPLETE_REGISTRATION_ENDPOINT = "/semicolon/cultify/v1/api/investor/completeRegistration";
+    public static final String INVESTOR_INITIAL_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/investor/sendVerificationMail";
     public static final String ADMIN_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/admin/registration";
     public static final String ADMIN_ENDPOINTS = "/semicolon/cultify/v1/api/admin/**";
     public static List<String> getAuthWhiteList(){
         return List.of(
-                INVESTOR_REGISTRATION_API_VALUE, ADMIN_REGISTRATION_API_VALUE, LOGIN_ENDPOINT
+                INVESTOR_INITIAL_REGISTRATION_API_VALUE, ADMIN_REGISTRATION_API_VALUE, LOGIN_ENDPOINT
         );
     }
 }

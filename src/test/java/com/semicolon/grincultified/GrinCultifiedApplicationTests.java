@@ -109,13 +109,14 @@ class GrinCultifiedApplicationTests {
 
 	@Test void deleteUser(){
 //		userRepository.deleteById(654L);
-//		userRepository.deleteById(802L);
+		userRepository.deleteById(1002L);
 //		investorService.deleteAll();
 //		adminRepository.deleteAll();
 //		Admin admin = adminRepository.findAdminByUser_EmailAddress("Sgreensneh@gmail.com").get();
 //		admin.getUser().setEmailAddress("Sgreen");
 //		adminRepository.save(admin);
-		farmProjectRepository.deleteAll();
+//		farmProjectRepository.deleteAll();
+//		investmentRepo.deleteById(102L);
 	}
 
 }
