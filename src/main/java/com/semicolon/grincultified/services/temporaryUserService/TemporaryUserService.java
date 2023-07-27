@@ -7,7 +7,7 @@ public interface TemporaryUserService {
    void addUserTemporarily(InvestorRegistrationRequest investorRegistrationRequest);
     InvestorRegistrationRequest findByEmail(String emailAddress) throws TemporaryInvestorDoesNotExistException;
     void deleteTemporaryInvestor(InvestorRegistrationRequest investorRegistrationRequest);
-    void validateDuplicateTemporaryInvestor(String emailAddress);
+    void deleteExistingTemporaryUser(String emailAddress);
 
     void deleteAll();
 

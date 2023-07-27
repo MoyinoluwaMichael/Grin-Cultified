@@ -16,8 +16,12 @@ public class Farmer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User user;
-    private String landPics;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String profilePicture;
+    private String location;
+    private String specialization;
+    private String description;
 }
 

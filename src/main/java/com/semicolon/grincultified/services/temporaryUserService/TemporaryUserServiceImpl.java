@@ -25,7 +25,7 @@ public class TemporaryUserServiceImpl implements TemporaryUserService {
     }
 
     @Override
-    public void validateDuplicateTemporaryInvestor(String emailAddress) {
+    public void deleteExistingTemporaryUser(String emailAddress) {
         var tempInvestor = temporaryInvestorRepository.findByEmailAddress(emailAddress);
         tempInvestor.ifPresent(this::deleteTemporaryInvestor);
     }
