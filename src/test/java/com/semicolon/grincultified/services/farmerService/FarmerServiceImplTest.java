@@ -20,15 +20,15 @@ class FarmerServiceImplTest {
         FarmerRegistrationRequest farmerRegistrationRequest = new FarmerRegistrationRequest();
         farmerRegistrationRequest.setFirstName("moyin");
         farmerRegistrationRequest.setLastName("oluwa");
-        farmerRegistrationRequest.setEmailAddress("moyinoluwa@example.com");
-        farmerRegistrationRequest.setPassword("password");
-        farmerRegistrationRequest.setCity("Lagos");
-        farmerRegistrationRequest.setLandPics("land_pic1.jpg");
+//        farmerRegistrationRequest.setEmailAddress("moyinoluwa@example.com");
+//        farmerRegistrationRequest.setPassword("password");
+//        farmerRegistrationRequest.setCity("Lagos");
+//        farmerRegistrationRequest.setLandPics("land_pic1.jpg");
         farmerRegistrationRequest.setPhoneNumber("1234567890");
-        farmerRegistrationRequest.setStreetName("John's Street");
-        farmerRegistrationRequest.setStreetNumber("123");
+//        farmerRegistrationRequest.setStreetName("John's Street");
+//        farmerRegistrationRequest.setStreetNumber("123");
         farmerRegistrationRequest.setProfilePicture("profile_pic.jpg");
-        farmerRegistrationRequest.setState("Lagos");
+//        farmerRegistrationRequest.setState("Lagos");
         GenericResponse<FarmerResponse> genericResponse = farmerService.registerFarmer(farmerRegistrationRequest);
         assertNotNull(genericResponse);
     }
