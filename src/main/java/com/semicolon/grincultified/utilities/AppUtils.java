@@ -10,9 +10,9 @@ public class AppUtils {
     public static final String INVALID_EMAIL = "Invalid email";
     public static final String ADMIN_INVITATION_MAIL_TEMPLATE = """
             Dear %s,
-            
+                        
             You have been invited to be an admin on Cultify platform. Kindly click below link to get started.
-            
+                        
             %s
             """;
     public static final String REGISTRATION_OTP = "REGISTRATION OTP";
@@ -23,11 +23,11 @@ public class AppUtils {
     public static final String OTP_TOKEN = "Your otp is: %s";
     public static final String INVESTOR_ALREADY_EXIST = "Account with this email already exist";
     public static final String REGISTERED_SUCCESSFULLY = "Registered successfully";
-    public static final String INCORRECT_OTP= "Incorrect otp!";
-    public static final String MESSAGE= "message";
-    public static final String TEMPORARY_INVESTOR_DOES_NOT_EXIST= "Temporary investor does not exist!";
-    public static final String TEMPORARY_INVESTOR_ALREADY_EXIST= "Temporary investor already exist!";
-    public static final String FARMER_REGISTRATION_SUCCESSFUL= "Farmer registration successful";
+    public static final String INCORRECT_OTP = "Incorrect otp!";
+    public static final String MESSAGE = "message";
+    public static final String TEMPORARY_INVESTOR_DOES_NOT_EXIST = "Temporary investor does not exist!";
+    public static final String TEMPORARY_INVESTOR_ALREADY_EXIST = "Temporary investor already exist!";
+    public static final String FARMER_REGISTRATION_SUCCESSFUL = "Farmer registration successful";
     public static final String CREATED = "201";
     public static final String OK = "200";
     public static final String EMAIL_VALUE = "email";
@@ -56,14 +56,32 @@ public class AppUtils {
     public static final String CLAIM_VALUE = "claim";
     public static final String USER_WITH_EMAIL_NOT_FOUND = "User with email %s not found";
     public static final String LOGIN_ENDPOINT = "/semicolon/cultify/v1/api/login";
+    public static final String SEND_RESET_PASSWORD_LINK_ENDPOINT = "/semicolon/cultify/v1/api/user/sendResetPasswordLink/**";
+    public static final String UPDATE_PASSWORD_ENDPOINT = "/semicolon/cultify/v1/api/user/updatePassword";
     public static final String INVESTMENT_CREATION_ENDPOINT = "/semicolon/cultify/v1/api/investment/initiateInvestment";
     public static final String OTP_VERIFICATION_ENDPOINT = "/semicolon/cultify/v1/api/investor/confirmRegistration";
     public static final String INVESTOR_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/investor/registration";
     public static final String ADMIN_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/admin/registration";
     public static final String ADMIN_ENDPOINTS = "/semicolon/cultify/v1/api/admin/**";
-    public static List<String> getAuthWhiteList(){
+    public static final String RESET_PASSWORD = "RESET PASSWORD";
+
+    public static final String RESET_PASSWORD_EMAIL_SENT_SUCCESSFULLY = "Reset password email sent successfully.";
+    public static final String PASSWORD_UPDATE_SUCCESSFUL = "Password successfully updated";
+
+    public static final String RESET_PASSWORD_MAIL_BODY = """
+            
+            We have received a request to reset your password for your Cultify account.
+            To reset your password, please click on the link below:
+            %s
+            If you did not request a password reset, please ignore this email, and your password will remain unchanged.
+            Thank you for choosing Cultify.
+            """;
+
+    public static List<String> getAuthWhiteList() {
         return List.of(
                 INVESTOR_REGISTRATION_API_VALUE, ADMIN_REGISTRATION_API_VALUE, LOGIN_ENDPOINT
         );
     }
+
+
 }

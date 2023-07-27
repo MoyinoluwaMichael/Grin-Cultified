@@ -1,6 +1,5 @@
 package com.semicolon.grincultified.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semicolon.grincultified.security.filters.CultifyAuthenticationFilter;
 import com.semicolon.grincultified.security.filters.CultifyAuthorizationFilter;
 import com.semicolon.grincultified.services.adminService.AdminService;
@@ -51,6 +50,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(c->c.requestMatchers(POST, OTP_VERIFICATION_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(POST, SEND_RESET_PASSWORD_LINK_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(POST, UPDATE_PASSWORD_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_ENDPOINTS)
                         .hasAnyRole(ORDINARY_ADMIN.name(), SUPER_ADMIN.name()))
