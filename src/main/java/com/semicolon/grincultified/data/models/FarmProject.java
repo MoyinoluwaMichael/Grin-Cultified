@@ -29,6 +29,7 @@ public class FarmProject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String farmProduceSummary;
+    @Column(length = 1000)
     private String description;
     private int numberOfUnitInvestedSoFar;
     @Enumerated(EnumType.STRING)

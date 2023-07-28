@@ -29,6 +29,8 @@ class GrinCultifiedApplicationTests {
 	@Autowired
 	private FarmProjectRepository farmProjectRepository;
 	@Autowired
+	private FarmerRepo farmerRepo;
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private InvestorService investorService;
@@ -109,14 +111,15 @@ class GrinCultifiedApplicationTests {
 
 	@Test void deleteUser(){
 //		userRepository.deleteById(654L);
-		userRepository.deleteById(1002L);
+//		userRepository.deleteById(1002L);
 //		investorService.deleteAll();
 //		adminRepository.deleteAll();
 //		Admin admin = adminRepository.findAdminByUser_EmailAddress("Sgreensneh@gmail.com").get();
 //		admin.getUser().setEmailAddress("Sgreen");
 //		adminRepository.save(admin);
-//		farmProjectRepository.deleteAll();
-//		investmentRepo.deleteById(102L);
+		farmProjectRepository.deleteAll();
+		investmentRepo.deleteAll();
+		farmerRepo.deleteAll();
 	}
 
 }
