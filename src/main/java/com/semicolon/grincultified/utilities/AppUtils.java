@@ -42,8 +42,8 @@ public class AppUtils {
     public static final String EMAIL_VALUE = "email";
     public static final String CULTIFY = "cultify";
     public static Long SIXTY = 60L;
-    public static String ADMIN_REGISTRATION_PAGE_URL = "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app/admin/registration/";
-    public static String INVESTOR_REGISTRATION_PAGE_URL = "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app/investor/emailVerification/";
+    public static String ADMIN_REGISTRATION_PAGE_URL = "https://cultify-frontend-git-release-development-moyinoluwamichael.vercel.app/admin/registration/";
+    public static String INVESTOR_REGISTRATION_PAGE_URL = "https://cultify-frontend-git-release-development-moyinoluwamichael.vercel.app/investor/emailVerification/";
     public static final String NO_INVITATION_SENT_YET = "%, No Registration Invitation Email Sent Yet";
     public static final String INVITATION_NOT_FOUND = "Invitation not found";
     public static final String ADMIN_NOT_FOUND = "Admin not found";
