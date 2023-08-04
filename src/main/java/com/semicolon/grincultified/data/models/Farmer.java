@@ -22,6 +22,7 @@ public class Farmer {
     private String profilePicture;
     private String location;
     private String specialization;
+    @Column(length = 1000)
     private String description;
 }
 
