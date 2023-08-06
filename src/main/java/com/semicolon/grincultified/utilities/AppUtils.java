@@ -4,6 +4,12 @@ import java.util.List;
 
 public class AppUtils {
     public static final String SYSTEM_MAIL = "aliyahrenike@gmail.com";
+    public static final String HTTP_STATUS_OK = "200";
+    public static final String HTTP_STATUS_OK_DESCRIPTION = "OK";
+    public static final String HTTP_STATUS_BAD_REQUEST = "400";
+    public static final String HTTP_STATUS_BAD_REQUEST_DESCRIPTION = "Bad request";
+    public static final String HTTP_STATUS_INTERNAL_SERVER_ERROR = "500";
+    public static final String HTTP_STATUS_INTERNAL_SERVER_ERROR_DESCRIPTION = "Internal server error";
     public static final String INVESTOR_INITIAL_REGISTRATION_RESPONSE = "A verification link has been sent to your email. Please check to complete your registration.";
     public static final String CULTIFY_ADMIN_INVITATION = "CULTIFY-ADMIN INVITATION";
     public static final String EMAIL_VERIFICATION = "EMAIL VERIFICATION";
@@ -66,6 +72,7 @@ public class AppUtils {
     public static final String CLAIM_VALUE = "claim";
     public static final String USER_WITH_EMAIL_NOT_FOUND = "User with email %s not found";
     public static final String LOGIN_ENDPOINT = "/semicolon/cultify/v1/api/login";
+    public static final String SWAGGER_UI_ENDPOINT = "/swagger-ui/index.html";
     public static final String INVESTMENT_CREATION_ENDPOINT = "/semicolon/cultify/v1/api/investment/initiateInvestment";
     public static final String COMPLETE_REGISTRATION_ENDPOINT = "/semicolon/cultify/v1/api/investor/completeRegistration";
     public static final String INVESTOR_INITIAL_REGISTRATION_API_VALUE = "/semicolon/cultify/v1/api/investor/sendVerificationMail";
@@ -73,7 +80,7 @@ public class AppUtils {
     public static final String ADMIN_ENDPOINTS = "/semicolon/cultify/v1/api/admin/**";
     public static List<String> getAuthWhiteList(){
         return List.of(
-                INVESTOR_INITIAL_REGISTRATION_API_VALUE, ADMIN_REGISTRATION_API_VALUE, LOGIN_ENDPOINT
+                INVESTOR_INITIAL_REGISTRATION_API_VALUE, ADMIN_REGISTRATION_API_VALUE, LOGIN_ENDPOINT, SWAGGER_UI_ENDPOINT
         );
     }
 }

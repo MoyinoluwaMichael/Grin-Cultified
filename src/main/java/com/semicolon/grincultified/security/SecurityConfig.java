@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.semicolon.grincultified.data.models.Role.ORDINARY_ADMIN;
 import static com.semicolon.grincultified.data.models.Role.SUPER_ADMIN;
 import static com.semicolon.grincultified.utilities.AppUtils.*;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
@@ -50,6 +51,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(c->c.requestMatchers(POST, COMPLETE_REGISTRATION_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(GET, SWAGGER_UI_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(GET, "/swagger-ui/**")
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(GET, "/v3/api-docs/**")
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_ENDPOINTS)
                         .hasAnyRole(ORDINARY_ADMIN.name(), SUPER_ADMIN.name()))
