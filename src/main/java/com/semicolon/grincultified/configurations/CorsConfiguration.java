@@ -10,7 +10,12 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app", "https://cultify-frontend-git-release-development-moyinoluwamichael.vercel.app")
+                .allowedOrigins(
+                        "http://localhost:3000",
+                        "https://cultify-frontend-cac0m6qs1-moyinoluwamichael.vercel.app",
+                        "https://cultify-frontend-git-release-development-moyinoluwamichael.vercel.app",
+                        "http://cultify.s3-website-us-west-1.amazonaws.com/"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowedHeaders("*");
     }

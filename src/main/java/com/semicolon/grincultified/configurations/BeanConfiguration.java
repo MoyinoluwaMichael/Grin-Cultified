@@ -25,7 +25,7 @@ public class BeanConfiguration {
     private String mailPassword;
     @Value("${spring.mail.username}")
     private String mailUsername;
-    @Value("jwt.signing.secret")
+    @Value("${jwt.signing.secret}")
     private String secret;
 
     @Bean
